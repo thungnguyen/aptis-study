@@ -1,0 +1,8 @@
+# Ignore source Word documents and temporary folders
+*.docx
+~$*.docx
+Speak/
+Writing/
+deploy_web/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,3185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APTIS Master — Hệ Thống Ôn Tập Toàn Diện (2026)</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --success-border: #a7f3d0;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --warning-border: #fde68a;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --purple: #7c3aed;
+      --purple-light: #f5f3ff;
+      --shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-alt: #0f172a;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-light: rgba(59, 130, 246, 0.15);
+      --primary-border: rgba(59, 130, 246, 0.4);
+      --success: #10b981;
+      --success-light: rgba(16, 185, 129, 0.15);
+      --success-border: rgba(16, 185, 129, 0.4);
+      --warning: #f59e0b;
+      --warning-light: rgba(245, 158, 11, 0.15);
+      --warning-border: rgba(245, 158, 11, 0.4);
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.15);
+      --purple: #a78bfa;
+      --purple-light: rgba(167, 139, 250, 0.15);
+      --shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    /* Top Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .header-top {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+    }
+
+    .brand-title h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mode-switch {
+      display: inline-flex;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .icon-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Skill Navigation Tabs */
+    .skill-nav {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      border-top: 1px solid var(--border);
+    }
+
+    .skill-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s;
+    }
+
+    .skill-tab:hover {
+      color: var(--primary);
+      background: var(--surface-alt);
+    }
+
+    .skill-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .skill-badge {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: var(--border);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .skill-tab.active .skill-badge {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Main Container */
+    .main-container {
+      max-width: 1280px;
+      margin: 20px auto 60px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar Part Selector */
+    .sidebar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 125px;
+    }
+
+    @media (max-width: 960px) {
+      .sidebar {
+        position: static;
+      }
+    }
+
+    .sidebar-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .part-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .part-btn {
+      text-align: left;
+      border: 1px solid transparent;
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .part-btn:hover {
+      border-color: var(--primary-border);
+      background: var(--primary-light);
+    }
+
+    .part-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    .part-btn-name {
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .part-btn-sub {
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    /* Speaking Timer Widget in Sidebar */
+    .timer-widget {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .timer-display {
+      font-size: 28px;
+      font-weight: 800;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      padding: 10px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 8px 0;
+      color: var(--primary);
+    }
+
+    .timer-presets {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .timer-btn {
+      padding: 6px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .timer-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .timer-btn.primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Content Area */
+    .content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    /* Tips Box */
+    .tips-card {
+      background: var(--warning-light);
+      border: 1px solid var(--warning-border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .tips-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .tips-header h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--warning);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tips-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--warning-border);
+      color: var(--warning);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tips-body {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--warning-border);
+      font-size: 14.5px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .tips-body.collapsed {
+      display: none;
+    }
+
+    .tip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .tip-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .tip-box h4 {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .tip-box ul {
+      padding-left: 18px;
+      font-size: 13.5px;
+    }
+
+    .tip-box li {
+      margin-bottom: 4px;
+    }
+
+    /* Controls Bar (Search + Pagination Top) */
+    .toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .select-control {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Pagination Bar */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .page-btn {
+      min-width: 36px;
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 8px;
+      font-weight: 600;
+    }
+
+    /* Item Cards */
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.15s;
+    }
+
+    .card:hover {
+      border-color: var(--primary-border);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+    }
+
+    .badge.green {
+      background: var(--success-light);
+      color: var(--success);
+      border-color: var(--success-border);
+    }
+
+    .badge.purple {
+      background: var(--purple-light);
+      color: var(--purple);
+    }
+
+    /* Multiple Choice Options */
+    .question-text {
+      font-size: 16.5px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+    }
+
+    .option-item {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option-item:hover {
+      border-color: var(--primary);
+    }
+
+    .option-item.correct-study {
+      background: var(--success-light);
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .option-item.selected-correct {
+      background: var(--success-light);
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .option-item.selected-wrong {
+      background: var(--danger-light);
+      border-color: var(--danger);
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    /* Script / Transcript Box */
+    .script-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: var(--surface-alt);
+      border-left: 4px solid var(--purple);
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .script-toggle {
+      margin-top: 10px;
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .script-toggle:hover {
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    /* Cohesion / Ordering Steps */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .step-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* QA Tables / Pairs */
+    .qa-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .qa-row {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 16px;
+      padding: 14px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    @media (max-width: 720px) {
+      .qa-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+
+    .qa-q {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .qa-a {
+      color: var(--text);
+      font-size: 15px;
+      white-space: pre-line;
+      border-left: 3px solid var(--success);
+      padding-left: 12px;
+    }
+
+    /* Highlighted customizable brackets [...] */
+    .slot-pill {
+      background: var(--danger-light);
+      color: var(--danger);
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+
+    .connective-hl {
+      background: var(--warning-light);
+      color: var(--warning);
+      font-weight: 700;
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+
+    /* Photos Grid in Speaking Part 2 & 3 */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .photo-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .photo-card img {
+      max-width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      border-radius: 8px;
+      cursor: zoom-in;
+      transition: transform 0.15s;
+    }
+
+    .photo-card img:hover {
+      transform: scale(1.02);
+    }
+
+    /* TTS Button & Sentence Interactive Highlighting */
+    .tts-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tts-btn {
+      border: 1px solid var(--primary-border);
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+
+    .tts-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .tts-btn.shadow-btn {
+      background: var(--purple-light);
+      color: var(--purple);
+      border-color: rgba(124, 58, 237, 0.35);
+    }
+
+    .tts-btn.shadow-btn:hover {
+      background: var(--purple);
+      color: #fff;
+      border-color: var(--purple);
+    }
+
+    .tts-btn.playing {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger);
+      animation: pulse-btn 1.2s infinite;
+    }
+
+    @keyframes pulse-btn {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.78; }
+    }
+
+    .speak-sentence {
+      border-radius: 5px;
+      padding: 1px 3px;
+      margin: 0 -1px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .speak-sentence:hover {
+      background: var(--primary-light);
+      text-decoration: underline dotted var(--primary);
+    }
+
+    .speak-sentence.active-reading {
+      background: #fef08a;
+      color: #0f172a;
+      font-weight: 700;
+      box-shadow: 0 0 0 2px #facc15;
+    }
+
+    body.dark .speak-sentence.active-reading {
+      background: #ca8a04;
+      color: #fff;
+      box-shadow: 0 0 0 2px #eab308;
+    }
+
+    /* Voice Studio in Sidebar */
+    .voice-widget {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .voice-select {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .speed-pills {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+
+    .speed-pill {
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      padding: 5px 4px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .speed-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Floating Audio Player Bar */
+    .audio-bar {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 950;
+      width: min(820px, calc(100vw - 28px));
+      background: var(--surface);
+      border: 2px solid var(--primary);
+      border-radius: 14px;
+      padding: 12px 16px;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.22);
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .audio-bar.open {
+      display: flex;
+    }
+
+    .audio-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .audio-status {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .audio-status.shadow-wait {
+      color: var(--purple);
+    }
+
+    .audio-current-sentence {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--surface-alt);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .audio-ctrl-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .audio-ctrl-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .audio-ctrl-btn.stop {
+      background: var(--danger-light);
+      color: var(--danger);
+      border-color: rgba(220, 38, 38, 0.3);
+    }
+
+    /* Practice Writing Area */
+    .writing-practice {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .writing-practice textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      margin-top: 8px;
+      resize: vertical;
+    }
+
+    /* Hidden answer blur in Practice Mode */
+    body.practice-mode .answer-reveal {
+      filter: blur(6px);
+      user-select: none;
+      cursor: pointer;
+      transition: filter 0.2s;
+    }
+
+    body.practice-mode .answer-reveal.revealed,
+    body.practice-mode .answer-reveal:hover {
+      filter: none;
+      user-select: auto;
+    }
+
+    /* Image Lightbox Modal */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Header -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand">
+        <div class="brand-logo">A</div>
+        <div class="brand-title">
+          <h1>APTIS Master — Hệ Thống Ôn Tập Toàn Diện</h1>
+          <p>Đầy đủ nội dung từ file Aptis - Cấu trúc.docx + Mẹo học & Công thức từng Part</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="mode-switch" title="Chọn chế độ xem đáp án">
+          <button class="mode-btn active" id="btnModeStudy" onclick="setStudyMode('study')">📖 Chế độ Học (Hiện đáp án)</button>
+          <button class="mode-btn" id="btnModePractice" onclick="setStudyMode('practice')">✍️ Tự kiểm tra (Ẩn đáp án)</button>
+        </div>
+        <button class="icon-btn" onclick="toggleDarkMode()" id="btnTheme">🌙 Giao diện tối</button>
+      </div>
+    </div>
+
+    <!-- Main Skill Tabs -->
+    <nav class="skill-nav" id="skillNav"></nav>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="main-container">
+    <!-- Left Sidebar: Parts & Speaking Timer -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Danh mục các phần (Parts)</div>
+      <div class="part-list" id="partList"></div>
+
+      <!-- Voice Studio Widget in Sidebar -->
+      <div class="voice-widget">
+        <div class="sidebar-title">🎙️ Giọng đọc & Tốc độ nhại</div>
+        <select class="voice-select" id="voiceSelect" onchange="onVoiceSelectChange(this.value)" title="Chọn giọng đọc mẫu">
+          <option value="google_uk">🇬🇧 Giọng AI Anh-Anh (Chuẩn Aptis - Tự nhiên)</option>
+          <option value="google_us">🇺🇸 Giọng AI Anh-Mỹ (Nữ rõ chữ, dễ nghe)</option>
+          <option value="auto_best">🌟 Giọng Neural Trình duyệt (Offline tốt nhất)</option>
+        </select>
+        <div style="font-size:11.5px; color:var(--text-muted); font-weight:600; margin-top:2px;">Tốc độ đọc (Chọn 0.85x để dễ bắt chước):</div>
+        <div class="speed-pills" id="speedPills">
+          <button class="speed-pill" onclick="setSpeechSpeed(0.75, this)">0.75x Chậm</button>
+          <button class="speed-pill active" onclick="setSpeechSpeed(0.85, this)">0.85x Chuẩn</button>
+          <button class="speed-pill" onclick="setSpeechSpeed(0.95, this)">0.95x Vừa</button>
+          <button class="speed-pill" onclick="setSpeechSpeed(1.0, this)">1.0x Nhanh</button>
+        </div>
+        <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
+          💡 <em>Mẹo:</em> Bấm trực tiếp vào <strong>từng câu</strong> trong bài mẫu để nghe riêng câu đó, hoặc bấm <strong>🗣️ Nhại từng câu</strong> để máy đọc từng câu và chờ bạn đọc theo!
+        </div>
+      </div>
+
+      <!-- Built-in Timer for Speaking / Writing -->
+      <div class="timer-widget">
+        <div class="sidebar-title">⏱️ Đồng hồ bấm giờ luyện tập</div>
+        <div class="timer-display" id="timerDisplay">00:45</div>
+        <div class="timer-presets">
+          <button class="timer-btn" onclick="startTimer(30)">30s (P1)</button>
+          <button class="timer-btn" onclick="startTimer(45)">45s (P2,3)</button>
+          <button class="timer-btn" onclick="startTimer(60)">1p Chuẩn bị</button>
+          <button class="timer-btn" onclick="startTimer(120)">2p (Speak P4)</button>
+          <button class="timer-btn" onclick="startTimer(600)">10p (Write)</button>
+          <button class="timer-btn" onclick="stopTimer()">⏹ Dừng</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Content Area -->
+    <main class="content-area">
+      <!-- Tips & Strategies Section for Current Part -->
+      <section class="tips-card" id="tipsSection">
+        <div class="tips-header" onclick="toggleTips()">
+          <h2 id="tipsTitle">💡 Mẹo học & Chiến thuật làm bài</h2>
+          <button class="tips-toggle-btn" id="tipsToggleBtn">Thu gọn ▲</button>
+        </div>
+        <div class="tips-body" id="tipsBody"></div>
+      </section>
+
+      <!-- Search & Page Size Toolbar -->
+      <section class="toolbar" id="toolbarSection">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Tìm nhanh câu hỏi, từ khóa, chủ đề, câu lạc bộ..." oninput="onSearchChange()" />
+        </div>
+        <div class="toolbar-right">
+          <select class="select-control" id="quickJumpSelect" onchange="onQuickJump(this.value)">
+            <option value="">⚡ Nhảy nhanh tới mục...</option>
+          </select>
+          <select class="select-control" id="pageSizeSelect" onchange="onPageSizeChange(this.value)">
+            <option value="10">10 mục / trang</option>
+            <option value="5">5 mục / trang</option>
+            <option value="20">20 mục / trang</option>
+            <option value="50">50 mục / trang</option>
+            <option value="9999">Xem tất cả</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Top Pagination -->
+      <div class="pagination" id="paginationTop"></div>
+
+      <!-- Dynamic Content List -->
+      <div class="items-list" id="itemsContainer"></div>
+
+      <!-- Bottom Pagination -->
+      <div class="pagination" id="paginationBottom"></div>
+    </main>
+  </div>
+
+  <!-- Floating Audio / Shadowing Player Bar -->
+  <div class="audio-bar" id="audioBar">
+    <div class="audio-bar-top">
+      <div class="audio-status" id="audioStatusText">🔊 Đang phát giọng mẫu...</div>
+      <div class="audio-controls">
+        <button class="audio-ctrl-btn" onclick="prevAudioSentence()" title="Câu trước">⏮ Câu trước</button>
+        <button class="audio-ctrl-btn" onclick="replayCurrentAudioSentence()" title="Nghe lại câu này">🔁 Nghe lại câu này</button>
+        <button class="audio-ctrl-btn" onclick="nextAudioSentence()" title="Câu tiếp theo">⏭ Câu tiếp</button>
+        <button class="audio-ctrl-btn stop" onclick="stopAllSpeech()">⏹ Dừng đọc</button>
+      </div>
+    </div>
+    <div class="audio-current-sentence" id="audioCurrentSentence">...</div>
+  </div>
+
+  <!-- Image Zoom Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="Zoomed preview" />
+  </div>
+
+  <!-- Load Extracted Data -->
+  <script src="data.js"></script>
+  <script>
+    // =========================================================================
+    // 1. STRUCTURE & STUDY TIPS FOR EVERY SKILL AND PART
+    // =========================================================================
+    const SKILLS_CONFIG = [
+      {
+        id: 'vocab_grammar',
+        name: '1. Vocabulary & Grammar',
+        badge: '50 câu / 25p',
+        parts: [
+          {
+            id: 'vg_part1',
+            name: 'Part 1: Grammar',
+            sub: 'Questions 1–25 (Ngữ pháp)',
+            tipsTitle: '💡 Mẹo học & Trọng tâm Ngữ pháp (Grammar - Questions 1–25)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 Cấu trúc bài thi</h4>
+                  <ul>
+                    <li>Gồm <strong>25 câu trắc nghiệm</strong> (3 đáp án A, B, C), làm chung trong 25 phút cùng phần Từ vựng (~30 giây/câu).</li>
+                    <li>Tập trung vào ngữ pháp giao tiếp thực tế và văn viết cơ bản đến trung cấp (A1 → B2).</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🔑 6 Chủ điểm chắc chắn gặp</h4>
+                  <ul>
+                    <li><strong>Thì động từ (Tenses):</strong> Hiện tại đơn, Quá khứ đơn (có <em>ago, last, yesterday</em>), Hiện tại hoàn thành (<em>since, for, yet, already</em>).</li>
+                    <li><strong>Câu điều kiện (Conditionals):</strong> Loại 1 (<em>If + HTĐ, will + V</em>), Loại 2 (<em>If + QKĐ, would + V</em>), Loại 3 (<em>If + had V3, would have V3</em>).</li>
+                    <li><strong>Động từ khuyết thiếu (Modals):</strong> <em>should, must, have to, might, used to + V</em>.</li>
+                    <li><strong>Giới từ & Liên từ:</strong> <em>in/on/at, although/despite, because/because of</em>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo khoanh nhanh</h4>
+                  <ul>
+                    <li>Nhìn ngay từ đứng trước và sau chỗ trống (dấu hiệu chia thì, giới từ đi kèm như <em>interested in, good at, depend on, look forward to + V-ing</em>).</li>
+                    <li>Loại trừ ngay các đáp án sai ngữ pháp hiển nhiên (sai ngôi, sai dạng V-ing / to V).</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'vg_part2',
+            name: 'Part 2: Vocabulary',
+            sub: 'Questions 26–50 (Từ vựng)',
+            tipsTitle: '💡 Mẹo học & Chiến thuật Từ vựng (Vocabulary - Questions 26–50)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 4 Dạng bài cố định (Mỗi dạng 5 câu)</h4>
+                  <ul>
+                    <li><strong>Dạng 1 (Word Matching):</strong> Nối từ đồng nghĩa (VD: <em>big = large, begin = start</em>).</li>
+                    <li><strong>Dạng 2 (Word Definition):</strong> Nối định nghĩa với từ đúng.</li>
+                    <li><strong>Dạng 3 (Word Usage):</strong> Điền từ vào câu theo ngữ cảnh.</li>
+                    <li><strong>Dạng 4 (Collocations):</strong> Kết hợp từ cố định (VD: <em>make a decision, do homework, heavy rain</em>).</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo làm bài ăn điểm tối đa</h4>
+                  <ul>
+                    <li><strong>Xét cùng từ loại (Part of Speech):</strong> Danh từ nối với danh từ, động từ nối với động từ, tính từ nối với tính từ, trạng từ (đuôi <em>-ly</em>) đi với trạng từ.</li>
+                    <li>Làm câu dễ biết chắc trước trong bảng kéo thả để thu hẹp dần các lựa chọn còn lại.</li>
+                    <li>Ôn kỹ các từ vựng xuất hiện trong <strong>Reading Part 1</strong> bên dưới vì từ vựng cơ bản lặp lại rất nhiều!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: 'reading',
+        name: '2. Reading',
+        badge: '4 Parts',
+        parts: [
+          {
+            id: 'r_part1',
+            name: 'Part 1: Sentence Comprehension',
+            sub: `Questions 1–5 (${window.APTIS_DATA.reading.part1.length} câu tủ)`,
+            tipsTitle: '💡 Mẹo học Reading Part 1: Điền từ vào câu ngắn (Questions 1–5)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 Cách học 143 câu tủ</h4>
+                  <ul>
+                    <li>Đây là phần <strong>dễ lấy điểm tuyệt đối nhất</strong> (chỉ mất 1–2 phút trong phòng thi).</li>
+                    <li>Các câu trong file đều là các câu ngắn nằm trong bức thư/tin nhắn, đáp án đúng đã được <strong>gạch chân & tô xanh</strong>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo nhận diện 3 giây</h4>
+                  <ul>
+                    <li>Nhìn từ đứng ngay trước/sau chỗ trống: <em>main <strong>station</strong>, in the <strong>window</strong> of one store, budget doesn't <strong>balance</strong>, financial <strong>statement</strong></em>.</li>
+                    <li>Bấm sang chế độ <strong>"✍️ Tự kiểm tra"</strong> ở góc trên để tự bấm chọn A/B/C và kiểm tra trí nhớ!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'r_part23',
+            name: 'Part 2–3: Text Cohesion',
+            sub: `Questions 6–15 (${window.APTIS_DATA.reading.part23.length} đoạn văn)`,
+            tipsTitle: '💡 Mẹo học Reading Part 2 & 3: Sắp xếp câu thành đoạn văn (Questions 6–15)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🔗 Mẹo tìm câu số 1 (Mở đầu)</h4>
+                  <ul>
+                    <li>Câu đầu tiên luôn là câu giới thiệu chủ đề chung, tên riêng, hoặc mốc thời gian mở đầu (<em>Before..., First..., In the past..., When you arrive...</em>).</li>
+                    <li>Câu số 1 <strong>không bao giờ</strong> bắt đầu bằng các từ nối chỉ hệ quả/tiếp nối như <em>Then, After that, Finally, However, Therefore, That's because</em>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🧩 Mẹo nối dây xích (Chain Linking)</h4>
+                  <ul>
+                    <li><strong>Trình tự thời gian:</strong> <em>First → Then / Next → During this time → After that → Finally</em>.</li>
+                    <li><strong>Đại từ nhân xưng / chỉ định:</strong> Danh từ riêng xuất hiện trước → câu sau mới dùng <em>He / She / They / It / This / These / Such + N</em>.</li>
+                    <li>Mẹo học nhanh: Chỉ cần nhớ <strong>từ khóa đầu câu</strong> theo thứ tự 1 → 2 → 3 → 4 → 5 của từng bài!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'r_part4',
+            name: 'Part 4: Opinion Matching',
+            sub: `Questions 16–22 (${window.APTIS_DATA.reading.part4.length} chủ đề)`,
+            tipsTitle: '💡 Mẹo học Reading Part 4: Nối quan điểm A, B, C, D (Questions 16–22)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🔍 Chiến thuật Đọc câu hỏi trước</h4>
+                  <ul>
+                    <li>Đọc 7 câu hỏi bên dưới trước, gạch chân từ khóa chính.</li>
+                    <li>Đọc từng người <strong>A → B → C → D</strong> và chốt hết các câu thuộc về người đó rồi mới sang người tiếp theo.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo học tủ cực nhanh</h4>
+                  <ul>
+                    <li>Chú ý sự đồng nghĩa (Paraphrase): VD trong bài <em>Games from childhood</em>: <em>"struggled with them / make us think a lot" = "much more difficult" (A)</em>.</li>
+                    <li>Dùng nút <strong>Tự kiểm tra</strong> để ẩn cột đáp án A/B/C/D và tự nhẩm lại!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'r_part5',
+            name: 'Part 5: Long Text Comprehension',
+            sub: `Questions 23–29 (${window.APTIS_DATA.reading.part5.length} chủ đề)`,
+            tipsTitle: '💡 Mẹo học Reading Part 5: Nối tiêu đề đoạn văn dài (Questions 23–29)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 Quy tắc Câu đầu + Câu cuối</h4>
+                  <ul>
+                    <li>80% ý chính (Heading) của đoạn văn nằm ở <strong>câu đầu tiên</strong> và <strong>câu kết luận cuối đoạn</strong> (đặc biệt sau các từ <em>Therefore, Yet, However, The central issue is...</em>).</li>
+                    <li>Đừng dịch từng từ! Hãy bắt cặp <strong>Từ khóa đoạn văn ↔ Tiêu đề (Heading)</strong>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo nhớ nhanh 24 bài tủ</h4>
+                  <ul>
+                    <li>Mỗi bài trong danh sách đã ghép sẵn <strong>Đoạn văn (bên trái)</strong> và <strong>Tiêu đề đúng (bên phải)</strong>.</li>
+                    <li>Khi học: Nhớ tên bài (VD: <em>Mountain, Digital innovation, Four-Day Work Week</em>) và lướt chuỗi tiêu đề theo thứ tự từ trên xuống dưới!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: 'listening',
+        name: '3. Listening',
+        badge: '4 Parts + Script',
+        parts: [
+          {
+            id: 'l_part1',
+            name: 'Part 1: Information Recognition',
+            sub: `Questions 1–13 (${window.APTIS_DATA.listening.part1.length} câu + Script)`,
+            tipsTitle: '💡 Mẹo học Listening Part 1: Nghe bắt thông tin cụ thể (Questions 1–13)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎧 Đặc điểm & Bẫy thường gặp</h4>
+                  <ul>
+                    <li>Hỏi thông tin cụ thể: <strong>Số tiền, Giờ giấc, Số điện thoại, Màu sắc, Địa điểm, Phương tiện</strong>.</li>
+                    <li><strong>Cẩn thận bẫy "Nhắc hết cả 3 đáp án":</strong> Băng luôn đọc cả 3 phương án A, B, C nhưng 2 phương án đầu thường bị phủ định hoặc đổi ý!</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🔑 Từ khóa chốt đáp án</h4>
+                  <ul>
+                    <li>Chú ý nghe sau các từ chuyển hướng: <strong><em>However, Instead, In fact, Actually, In that case, Finally, Fortunately</em></strong> — đáp án đúng luôn nằm ngay sau đó!</li>
+                    <li>Mỗi câu bên dưới đều kèm <strong>📝 Audio Script (Lời thoại gốc từ comment trong file)</strong> để bạn hiểu rõ tại sao chọn đáp án đó.</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'l_part2',
+            name: 'Part 2: Information Matching',
+            sub: `Question 14 (${window.APTIS_DATA.listening.part2.length} chủ đề)`,
+            tipsTitle: '💡 Mẹo học Listening Part 2: Nối 4 người nói với quan điểm (Question 14)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 Cách làm bài</h4>
+                  <ul>
+                    <li>4 người (Person 1, 2, 3, 4) nói ngắn gọn về cùng 1 chủ đề (VD: <em>Protect the environment, Online shopping, Sport</em>).</li>
+                    <li>Mỗi người cũng thường nhắc tới 1 ý phụ (mà họ <em>không</em> làm), sau đó mới chốt ý chính của họ sau <em>Instead, Personally, But I...</em></li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo học theo cụm 4 đáp án</h4>
+                  <ul>
+                    <li>Học theo tên Topic và nhớ nhanh 4 ý của Person 1 → 4.</li>
+                    <li>Bấm vào <strong>"📝 Xem lời thoại (Script)"</strong> ở từng người để đọc lời thoại gốc.</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'l_part3',
+            name: 'Part 3: Opinion Matching',
+            sub: `Question 15 (${window.APTIS_DATA.listening.part3.length} chủ đề)`,
+            tipsTitle: '💡 Mẹo học Listening Part 3: Hội thoại Nam (M) – Nữ (W) – Cả hai (B) (Question 15)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🗣️ Phân biệt M / W / B</h4>
+                  <ul>
+                    <li><strong>M (Man):</strong> Quan điểm của người đàn ông.</li>
+                    <li><strong>W (Woman):</strong> Quan điểm của người phụ nữ.</li>
+                    <li><strong>B (Both):</strong> Quan điểm cả hai cùng đồng tình (thường có cụm: <em>"You're absolutely right", "I couldn't agree more", "We also need to..."</em>).</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo học nhanh</h4>
+                  <ul>
+                    <li>Mỗi chủ đề có 4 nhận định. Bạn có thể nhớ nhanh chuỗi đáp án (VD: <em>M - W - B - M</em>) kèm từ khóa đầu câu của từng nhận định.</li>
+                    <li>Có đầy đủ <strong>Script hội thoại</strong> bên dưới mỗi chủ đề để đối chiếu!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'l_part4',
+            name: 'Part 4: Longer Monologues',
+            sub: `Questions 16–17 (${window.APTIS_DATA.listening.part4.length} bài độc thoại)`,
+            tipsTitle: '💡 Mẹo học Listening Part 4: Bài độc thoại dài (Questions 16–17)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎧 Cấu trúc bài thi</h4>
+                  <ul>
+                    <li>Gồm 2 bài độc thoại dài, mỗi bài có <strong>2 câu hỏi trắc nghiệm</strong> (16.1 & 16.2, 17.1 & 17.2).</li>
+                    <li>Thứ tự câu trả lời trong băng luôn xuất hiện <strong>theo đúng thứ tự câu hỏi 1 → câu hỏi 2</strong>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo ôn tập</h4>
+                  <ul>
+                    <li>Đọc kỹ tên Topic (VD: <em>A newly released novel, Professionalism at work, Writer's block</em>) và 2 đáp án gạch chân.</li>
+                    <li>Mở phần <strong>📝 Xem Script</strong> để xem câu chứa đáp án trong bài nói.</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: 'speaking',
+        name: '4. Speaking',
+        badge: '4 Parts + Công thức',
+        parts: [
+          {
+            id: 's_formulas',
+            name: '⭐ Công thức Speaking & Khung mẫu',
+            sub: 'Cấu trúc câu & Mẹo chung 4 Parts',
+            tipsTitle: '💡 Bí quyết đạt B2+ Speaking dù vốn từ vừa phải',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎙️ Nguyên tắc vàng trong phòng thi</h4>
+                  <ul>
+                    <li><strong>Không bao giờ im lặng:</strong> Nói đều đặn, rõ chữ, tốc độ vừa phải cho đến gần hết giờ (30s / 45s / 2p).</li>
+                    <li><strong>Học 1 Core Story dùng cho nhiều đề:</strong> Các câu trả lời trong file được thiết kế theo phương pháp <em>Core Story</em> — chỉ cần thay cụm từ trong ngoặc vuông <span class="slot-pill">[...]</span> là trả lời được hàng chục câu hỏi khác nhau!</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⏱️ Luyện phản xạ bấm giờ</h4>
+                  <ul>
+                    <li>Sử dụng <strong>Đồng hồ bấm giờ</strong> ở thanh bên trái (30s, 45s, 1p, 2p) và nút <strong>🔊 Nghe mẫu</strong> ở từng câu để luyện phát âm và canh thời gian chuẩn xác.</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 's_part1',
+            name: 'Part 1: Personal Information',
+            sub: `3 câu × 30s (${window.APTIS_DATA.speaking.part1.length} Core Stories)`,
+            tipsTitle: '💡 Mẹo học Speaking Part 1: Thông tin cá nhân (3 câu × 30 giây)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 Công thức 3–4 câu (Vừa khít 30 giây)</h4>
+                  <ul>
+                    <li><strong>Câu 1 (Trực tiếp):</strong> Trả lời thẳng vào câu hỏi (<em>In my free time, I enjoy... / My favorite place is...</em>).</li>
+                    <li><strong>Câu 2 (Chi tiết/Thói quen):</strong> Nói thêm làm gì, ở đâu, với ai (<em>We often...</em>).</li>
+                    <li><strong>Câu 3 (Cảm xúc/Lý do):</strong> <em>It always makes me feel relaxed and happy.</em></li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🔴 Chú ý các cụm <span class="slot-pill">[...]</span></h4>
+                  <ul>
+                    <li>Các cụm trong ngoặc vuông <span class="slot-pill">[Last night / On the weekend]</span> là phần linh hoạt thay đổi theo đúng từ để hỏi của đề bài, còn toàn bộ phần thân giữ nguyên!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 's_part2',
+            name: 'Part 2: Describe One Photo',
+            sub: `3 câu × 45s (${window.APTIS_DATA.speaking.part2.length} bộ tranh)`,
+            tipsTitle: '💡 Mẹo học & Công thức Speaking Part 2: Mô tả 1 bức tranh (3 câu × 45 giây)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🖼️ Câu 1: Công thức mô tả 1 tranh (4–5 câu)</h4>
+                  <ul>
+                    <li><em>In the picture, I can see <strong>[ai, ở đâu]</strong>.</em></li>
+                    <li><em>They are <strong>[hành động V-ing]</strong>.</em></li>
+                    <li><em>In the background, I can see <strong>[cảnh phía sau]</strong>.</em></li>
+                    <li><em>It seems that they are very happy and enjoying their time.</em></li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🗣️ Câu 2 & Câu 3: Trải nghiệm / Lý do</h4>
+                  <ul>
+                    <li><strong>Kể lần gần nhất (Past):</strong> <em>I'm going to talk about the last time I [V2/ed]. It was last week with my [friends/family]... We talked a lot and had a great time.</em></li>
+                    <li><strong>Nêu lý do / lợi ích:</strong> <em>There are some reasons why [chủ đề]. The first reason is that it helps people relax and reduce stress. Another reason is that...</em></li>
+                    <li>Mỗi SET bên dưới có cả <strong>Bản đầy đủ (B2)</strong> và <strong>Bản rút gọn dễ thuộc (B1)</strong>!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 's_part3',
+            name: 'Part 3: Compare Two Photos',
+            sub: `3 câu × 45s (${window.APTIS_DATA.speaking.part3.length} bộ tranh)`,
+            tipsTitle: '💡 Mẹo học & Công thức Speaking Part 3: So sánh 2 bức tranh (3 câu × 45 giây)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>⚖️ Câu 1: Công thức so sánh 2 tranh</h4>
+                  <ul>
+                    <li><em>The two pictures show <strong>[chủ đề chung]</strong>.</em></li>
+                    <li><em>In the first picture, <strong>[tranh 1]</strong>, while in the second picture, <strong>[tranh 2]</strong>.</em></li>
+                    <li><em>The first scene looks <strong>[tính từ 1]</strong>, whereas the second looks <strong>[tính từ 2]</strong>.</em></li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🗣️ Câu 2 (Chọn lựa) & Câu 3 (Mở rộng)</h4>
+                  <ul>
+                    <li><strong>Câu 2 (Prefer):</strong> <em>I prefer [A] for two main reasons. First, [lý do 1]. Second, [lý do 2].</em></li>
+                    <li><strong>Câu 3 (Quan điểm):</strong> <em>I think [chủ đề] is very important for two main reasons. First, [ý 1]. Second, [ý 2].</em></li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 's_part4',
+            name: 'Part 4: Abstract Topic',
+            sub: `1p chuẩn bị + 2p nói (${window.APTIS_DATA.speaking.part4.length} Core Stories / 58 Modules)`,
+            tipsTitle: '💡 Chiến thuật "6 Core Stories cân mọi đề" trong Speaking Part 4 (1p chuẩn bị + 2p nói)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>🎯 Khung bài nói 2 phút cố định</h4>
+                  <ul>
+                    <li><strong>1. Mở bài:</strong> <em>Now, I am going to answer the three questions, which are: [Đọc lại 3 câu hỏi của đề].</em></li>
+                    <li><strong>2. Câu 1 (Kể chuyện):</strong> <em>Regarding the first question, today I am going to tell you about a time [ý chính Q1]...</em> + <strong>[Core Story cố định]</strong>.</li>
+                    <li><strong>3. Câu 2 (Cách xử lý / Cảm xúc):</strong> <em>Turning to the second question...</em></li>
+                    <li><strong>4. Câu 3 (Trừu tượng):</strong> <em>As for the final question, I think [chủ đề Q3] is very important for two main reasons. First,... Second,...</em></li>
+                    <li><strong>5. Kết bài:</strong> <em>That's all I want to tell you. Thank you for your listening.</em></li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🚀 Cách học cực nhàn</h4>
+                  <ul>
+                    <li>Thay vì học thuộc 60 đề rời rạc, bạn chỉ cần học thuộc lòng <strong>6 Core Stories</strong> (Dự án nhóm, Chuyến đi Đà Nẵng, Tình nguyện cùng bạn, Tiết kiệm mua Laptop, Đi thực tập, Lễ hội văn hóa trường).</li>
+                    <li>Mỗi Core Story bên dưới đã liệt kê rõ từng <strong>Module (A, B, C...)</strong> và câu nối thêm tương ứng!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          }
+        ]
+      },
+      {
+        id: 'writing',
+        name: '5. Writing',
+        badge: '4 Parts (Clubs)',
+        parts: [
+          {
+            id: 'w_part1',
+            name: 'Part 1: Word-level Writing',
+            sub: `5 câu ngắn (${window.APTIS_DATA.writing.part1.length} Câu lạc bộ)`,
+            tipsTitle: '💡 Mẹo học Writing Part 1: Điền đơn thông tin ngắn (5 câu × 1–10 từ)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>✍️ Quy tắc làm bài (Chỉ tốn 3 phút)</h4>
+                  <ul>
+                    <li>Viết câu ngắn gọn hoặc cụm từ (5–10 từ), viết hoa chữ cái đầu và có dấu chấm cuối câu để an toàn nhất.</li>
+                    <li>Không cần dùng từ vựng phức tạp, ưu tiên <strong>đúng chính tả 100%</strong>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🔁 Các câu hỏi lặp đi lặp lại ở mọi Club</h4>
+                  <ul>
+                    <li><em>Weather today?</em> → <strong>It is sunny and quite warm today.</strong></li>
+                    <li><em>Favourite season?</em> → <strong>My favourite season is summer.</strong></li>
+                    <li><em>Free time?</em> → <strong>I usually watch movies and listen to music.</strong></li>
+                    <li><em>Your job?</em> → <strong>I am a final-year university student.</strong></li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'w_part2',
+            name: 'Part 2: Short Text Writing',
+            sub: `20–30 từ (${window.APTIS_DATA.writing.part2.length} Câu lạc bộ)`,
+            tipsTitle: '💡 Mẹo học Writing Part 2: Trả lời câu hỏi câu lạc bộ (20–30 từ)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>📏 Kiểm soát số từ (20–35 từ)</h4>
+                  <ul>
+                    <li>Viết khoảng <strong>2 đến 3 câu hoàn chỉnh</strong>: Câu 1 trả lời trực tiếp câu hỏi (Khi nào/Ở đâu/Cái gì) + Câu 2 nêu chi tiết/lý do (<em>because...</em>) + Câu 3 nêu cảm xúc.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>⚡ Mẹo tận dụng từ khóa</h4>
+                  <ul>
+                    <li>Nhại lại cấu trúc câu hỏi: Hỏi <em>"When and where do you..."</em> → Trả lời <em>"I usually ... at home every evening because..."</em>.</li>
+                    <li>Bạn có thể bấm vào <strong>"✍️ Gõ thử & Đếm từ"</strong> ở bất kỳ câu lạc bộ nào bên dưới để tập gõ!</li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'w_part3',
+            name: 'Part 3: Three Written Responses',
+            sub: `3 câu × 30–40 từ (${window.APTIS_DATA.writing.part3.length} Câu lạc bộ)`,
+            tipsTitle: '💡 Mẹo học Writing Part 3: Trả lời 3 tin nhắn phòng Chat (30–40 từ / câu)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>💬 Cấu trúc 3 câu hỏi Chat</h4>
+                  <ul>
+                    <li><strong>Câu A (Sở thích/Thói quen cá nhân):</strong> Nêu sở thích + 2 lý do ngắn.</li>
+                    <li><strong>Câu B (Lời khuyên / Kinh nghiệm):</strong> Dùng <em>I would suggest / Beginners should...</em></li>
+                    <li><strong>Câu C (Quan điểm xã hội):</strong> Dùng <em>In my opinion / I partly agree because..., although...</em></li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>✨ 3 Câu kết "vạn năng" nối dài đủ số từ</h4>
+                  <ul>
+                    <li>Câu A: <em>This also makes the overall experience more enjoyable, meaningful, and rewarding.</em></li>
+                    <li>Câu B: <em>This should make the situation more manageable, practical, and positive.</em></li>
+                    <li>Câu C: <em>For these reasons, I believe this is a balanced and worthwhile perspective.</em></li>
+                  </ul>
+                </div>
+              </div>
+            `
+          },
+          {
+            id: 'w_part4',
+            name: 'Part 4: Formal & Informal Emails',
+            sub: `50 từ + 120–150 từ (${window.APTIS_DATA.writing.part4.clubs.length} Câu lạc bộ)`,
+            tipsTitle: '💡 Mẹo học & Khung Email B2–C1 cho Writing Part 4 (Email bạn bè & Email quản lý)',
+            tipsHtml: `
+              <div class="tip-grid">
+                <div class="tip-box">
+                  <h4>💌 Email 1: Gửi bạn thân (40–50 từ - Informal)</h4>
+                  <ul>
+                    <li>Chào thân mật: <em>Hi Alex, / Dear Hung,</em></li>
+                    <li>Cảm thán tự nhiên (ăn điểm B2/C1): <em>Honestly, I was <strong>over the moon</strong> (nếu tin vui) / <strong>down in the dumps</strong> (nếu tin buồn/hủy lịch)...</em></li>
+                    <li>Nêu ngắn gọn 1–2 đề xuất + <em>What do you think? Best, Sam</em>.</li>
+                  </ul>
+                </div>
+                <div class="tip-box">
+                  <h4>🏛️ Email 2: Gửi Quản lý (120–150 từ - Formal)</h4>
+                  <ul>
+                    <li>Mở đầu chuẩn mực: <em>Dear Sir/Madam, (hoặc Dear Club Manager,) I am writing in response to the recent notice about...</em></li>
+                    <li>Đoạn thân bài nêu 2–3 giải pháp rõ ràng với từ nối: <em>First, the club should... This would... I also recommend that... In addition, it would be useful to...</em></li>
+                    <li>Kết thư lịch sự: <em>Thank you for considering my suggestions... Yours faithfully, [Họ tên].</em></li>
+                  </ul>
+                </div>
+              </div>
+            `
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 2. STATE MANAGEMENT
+    // =========================================================================
+    let currentSkillId = 'reading';
+    let currentPartId = 'r_part1';
+    let studyMode = 'study'; // 'study' | 'practice'
+    let searchQuery = '';
+    let pageSize = 10;
+    let currentPage = 1;
+    let filteredItems = [];
+
+    // =========================================================================
+    // 3. INITIALIZATION & NAVIGATION
+    // =========================================================================
+    function initApp() {
+      renderSkillTabs();
+      selectSkill('reading', 'r_part1');
+    }
+
+    function renderSkillTabs() {
+      const nav = document.getElementById('skillNav');
+      nav.innerHTML = SKILLS_CONFIG.map(sk => `
+        <button class="skill-tab ${sk.id === currentSkillId ? 'active' : ''}" onclick="selectSkill('${sk.id}')">
+          <span>${sk.name}</span>
+          <span class="skill-badge">${sk.badge}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectSkill(skillId, partId = null) {
+      currentSkillId = skillId;
+      const skillObj = SKILLS_CONFIG.find(s => s.id === skillId);
+      currentPartId = partId || skillObj.parts[0].id;
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      currentPage = 1;
+
+      renderSkillTabs();
+      renderSidebarParts();
+      renderCurrentPart();
+    }
+
+    function selectPart(partId) {
+      currentPartId = partId;
+      searchQuery = '';
+      document.getElementById('searchInput').value = '';
+      currentPage = 1;
+
+      renderSidebarParts();
+      renderCurrentPart();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderSidebarParts() {
+      const skillObj = SKILLS_CONFIG.find(s => s.id === currentSkillId);
+      const listEl = document.getElementById('partList');
+      listEl.innerHTML = skillObj.parts.map(p => `
+        <button class="part-btn ${p.id === currentPartId ? 'active' : ''}" onclick="selectPart('${p.id}')">
+          <div class="part-btn-name">
+            <span>${p.name}</span>
+          </div>
+          <div class="part-btn-sub">${p.sub}</div>
+        </button>
+      `).join('');
+    }
+
+    // =========================================================================
+    // 4. DATA RETRIEVAL & FILTERING PER PART
+    // =========================================================================
+    function getRawItemsForPart(partId) {
+      const D = window.APTIS_DATA;
+      switch (partId) {
+        case 'vg_part1':
+          return getGrammarReferenceItems();
+        case 'vg_part2':
+          return getVocabReferenceItems();
+        case 'r_part1':
+          return D.reading.part1.map((item, idx) => ({ ...item, _idx: idx + 1, _title: item.q }));
+        case 'r_part23':
+          return D.reading.part23.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.title}` }));
+        case 'r_part4':
+          return D.reading.part4.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.title}` }));
+        case 'r_part5':
+          return D.reading.part5.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.title}` }));
+        case 'l_part1':
+          return D.listening.part1.map((item, idx) => ({ ...item, _idx: idx + 1, _title: item.q }));
+        case 'l_part2':
+          return D.listening.part2.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.topic}` }));
+        case 'l_part3':
+          return D.listening.part3.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.topic}` }));
+        case 'l_part4':
+          return D.listening.part4.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.topic}` }));
+        case 's_formulas':
+          return [{ _idx: 1, _title: 'Công thức Speaking tổng hợp', formulas: D.speaking.formulas }];
+        case 's_part1':
+          return D.speaking.part1.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.title}` }));
+        case 's_part2':
+          return D.speaking.part2.map((item, idx) => ({ ...item, _idx: idx + 1, _title: item.subtitle || item.title }));
+        case 's_part3':
+          return D.speaking.part3.map((item, idx) => ({ ...item, _idx: idx + 1, _title: item.title }));
+        case 's_part4':
+          return D.speaking.part4.map((item, idx) => ({ ...item, _idx: idx + 1, _title: item.title }));
+        case 'w_part1':
+          return D.writing.part1.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.club}` }));
+        case 'w_part2':
+          return D.writing.part2.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.club}` }));
+        case 'w_part3':
+          return D.writing.part3.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.club}` }));
+        case 'w_part4':
+          return D.writing.part4.clubs.map((item, idx) => ({ ...item, _idx: idx + 1, _title: `${idx + 1}. ${item.club}` }));
+        default:
+          return [];
+      }
+    }
+
+    function renderCurrentPart() {
+      const skillObj = SKILLS_CONFIG.find(s => s.id === currentSkillId);
+      const partObj = skillObj.parts.find(p => p.id === currentPartId);
+
+      // Update Tips
+      document.getElementById('tipsTitle').innerHTML = partObj.tipsTitle;
+      document.getElementById('tipsBody').innerHTML = partObj.tipsHtml;
+
+      // Filter items
+      const raw = getRawItemsForPart(currentPartId);
+      const q = searchQuery.trim().toLowerCase();
+      if (!q) {
+        filteredItems = raw;
+      } else {
+        filteredItems = raw.filter(item => JSON.stringify(item).toLowerCase().includes(q));
+      }
+
+      // Populate Quick Jump dropdown
+      const jumpEl = document.getElementById('quickJumpSelect');
+      jumpEl.innerHTML = `<option value="">⚡ Nhảy nhanh tới mục (${filteredItems.length} mục)...</option>` +
+        filteredItems.map((it, idx) => `<option value="${idx}">${escapeHtml((it._title || '').slice(0, 75))}</option>`).join('');
+
+      renderPaginationAndList();
+    }
+
+    function renderPaginationAndList() {
+      if (typeof stopAllSpeech === 'function') stopAllSpeech();
+      const total = filteredItems.length;
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIdx = (currentPage - 1) * pageSize;
+      const pageItems = filteredItems.slice(startIdx, startIdx + pageSize);
+
+      // Render Pagination Bars
+      const pagHtml = buildPaginationHtml(currentPage, totalPages, total, startIdx);
+      document.getElementById('paginationTop').innerHTML = pagHtml;
+      document.getElementById('paginationBottom').innerHTML = pagHtml;
+
+      // Render Items
+      const container = document.getElementById('itemsContainer');
+      if (total === 0) {
+        container.innerHTML = `<div class="card"><p>Không tìm thấy nội dung phù hợp với từ khóa <strong>"${escapeHtml(searchQuery)}"</strong>.</p></div>`;
+        return;
+      }
+
+      let extraTopHtml = '';
+      if (currentPartId === 'w_part4' && currentPage === 1 && !searchQuery) {
+        extraTopHtml = renderWritingPart4Templates();
+      }
+
+      container.innerHTML = extraTopHtml + pageItems.map(item => renderItemCard(currentPartId, item)).join('');
+    }
+
+    function buildPaginationHtml(page, totalPages, totalItems, startIdx) {
+      if (totalPages <= 1) {
+        return `<span class="page-info">Hiển thị toàn bộ <strong>${totalItems}</strong> mục trong phần này</span>`;
+      }
+      let pages = [];
+      const maxButtons = 7;
+      let startP = Math.max(1, page - 3);
+      let endP = Math.min(totalPages, startP + maxButtons - 1);
+      if (endP - startP < maxButtons - 1) {
+        startP = Math.max(1, endP - maxButtons + 1);
+      }
+
+      let btns = `<button class="page-btn" ${page === 1 ? 'disabled' : ''} onclick="goToPage(1)" title="Trang đầu">«</button>`;
+      btns += `<button class="page-btn" ${page === 1 ? 'disabled' : ''} onclick="goToPage(${page - 1})">‹ Trước</button>`;
+
+      for (let p = startP; p <= endP; p++) {
+        btns += `<button class="page-btn ${p === page ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+      }
+
+      btns += `<button class="page-btn" ${page === totalPages ? 'disabled' : ''} onclick="goToPage(${page + 1})">Sau ›</button>`;
+      btns += `<button class="page-btn" ${page === totalPages ? 'disabled' : ''} onclick="goToPage(${totalPages})" title="Trang cuối">»</button>`;
+      btns += `<span class="page-info">Trang <strong>${page}/${totalPages}</strong> (Mục ${startIdx + 1}–${Math.min(totalItems, startIdx + pageSize)} / ${totalItems})</span>`;
+      return btns;
+    }
+
+    function goToPage(p) {
+      currentPage = p;
+      renderPaginationAndList();
+      document.getElementById('toolbarSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function onSearchChange() {
+      searchQuery = document.getElementById('searchInput').value;
+      currentPage = 1;
+      renderCurrentPart();
+    }
+
+    function onPageSizeChange(val) {
+      pageSize = parseInt(val, 10) || 10;
+      currentPage = 1;
+      renderPaginationAndList();
+    }
+
+    function onQuickJump(indexStr) {
+      if (indexStr === '') return;
+      const idx = parseInt(indexStr, 10);
+      const targetPage = Math.floor(idx / pageSize) + 1;
+      currentPage = targetPage;
+      renderPaginationAndList();
+      const itemObj = filteredItems[idx];
+      if (itemObj) {
+        setTimeout(() => {
+          const el = document.getElementById(`item-card-${itemObj._idx}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 60);
+      }
+    }
+
+    // =========================================================================
+    // 5. CARD RENDERERS FOR EACH PART
+    // =========================================================================
+    function renderItemCard(partId, item) {
+      switch (partId) {
+        case 'vg_part1':
+        case 'vg_part2':
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">${escapeHtml(item.title)}</div>
+                <span class="badge">${escapeHtml(item.tag)}</span>
+              </div>
+              <div class="qa-list">
+                ${item.points.map(pt => `
+                  <div class="qa-row">
+                    <div class="qa-q">${escapeHtml(pt.rule)}</div>
+                    <div class="qa-a">${formatTextWithHighlights(pt.example)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+
+        case 'r_part1':
+        case 'l_part1': {
+          const uid = `${partId}_${item._idx}`;
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="question-text">${escapeHtml(item.q)}</div>
+              <div class="options-grid" id="opts-${uid}">
+                ${item.options.map((opt, oIdx) => {
+                  const isCorrect = opt === item.answer;
+                  const cls = (studyMode === 'study' && isCorrect) ? 'correct-study' : '';
+                  const icon = (studyMode === 'study' && isCorrect) ? '<span>✅ Đáp án đúng</span>' : '';
+                  return `
+                    <div class="option-item ${cls}" onclick="checkMcqOption(this, ${isCorrect})">
+                      <span>${escapeHtml(opt)}</span>
+                      ${icon}
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+              ${item.script ? `
+                <button class="script-toggle" onclick="toggleElement('script-${uid}')">📝 Xem / Ẩn Lời thoại (Audio Script)</button>
+                <div class="script-box" id="script-${uid}" style="display: ${studyMode === 'study' ? 'block' : 'none'}">
+                  <strong>🎧 Audio Script:</strong><br/>${escapeHtml(item.script)}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        case 'r_part23': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">📄 Bài ${item._idx}: ${escapeHtml(item.title)}</div>
+                <span class="badge">Sắp xếp ${item.items.length} câu</span>
+              </div>
+              <div class="step-list">
+                ${item.items.map(step => `
+                  <div class="step-item">
+                    <div class="step-num">${escapeHtml(step.order)}</div>
+                    <div class="answer-reveal" onclick="this.classList.add('revealed')">${highlightConnectives(step.text)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 'r_part4': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">👥 Chủ đề ${item._idx}: ${escapeHtml(item.title)}</div>
+                <span class="badge">Opinion Matching (A–D)</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+                ${item.texts.map(p => `
+                  <div style="padding:12px 14px; background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; font-size:14.5px;">
+                    ${escapeHtml(p)}
+                  </div>
+                `).join('')}
+              </div>
+              <div class="qa-list">
+                ${item.questions.map(q => `
+                  <div class="qa-row" style="grid-template-columns: 1fr 120px; align-items:center;">
+                    <div class="qa-q">${escapeHtml(q.q)}</div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')" style="text-align:center; font-weight:800; font-size:17px; color:var(--success);">
+                      Person ${escapeHtml(q.ans)}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 'r_part5': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">📚 Chủ đề ${item._idx}: ${escapeHtml(item.title)}</div>
+                <span class="badge">Nối tiêu đề đoạn văn (${item.items.length} đoạn)</span>
+              </div>
+              <div class="qa-list">
+                ${item.items.map(row => `
+                  <div class="qa-row" style="grid-template-columns: 1.8fr 1fr;">
+                    <div style="font-size:14.5px;">${escapeHtml(row.paragraph)}</div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')" style="font-weight:800; color:var(--primary); display:flex; align-items:center;">
+                      🏷️ ${escapeHtml(row.heading)}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 'l_part2': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">🎧 Chủ đề ${item._idx}: ${escapeHtml(item.topic)}</div>
+                <span class="badge">Listening Part 2 (4 người)</span>
+              </div>
+              <div class="qa-list">
+                ${item.items.map((p, pIdx) => `
+                  <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; padding:12px 14px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                      <strong style="color:var(--primary);">${escapeHtml(p.person)}</strong>
+                      <span class="answer-reveal" onclick="this.classList.add('revealed')" style="font-weight:700; color:var(--success);">✅ ${escapeHtml(p.answer)}</span>
+                    </div>
+                    ${p.script ? `
+                      <div class="script-box" style="margin-top:8px;">
+                        <strong>📝 Script:</strong> ${escapeHtml(p.script)}
+                      </div>
+                    ` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 'l_part3': {
+          const speakerMap = { 'M': '👨 Man (Nam)', 'W': '👩 Woman (Nữ)', 'B': '👫 Both (Cả hai)' };
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">🗣️ Chủ đề ${item._idx}: ${escapeHtml(item.topic)}</div>
+                <span class="badge">Listening Part 3 (M / W / B)</span>
+              </div>
+              <div class="qa-list">
+                ${item.items.map(st => `
+                  <div class="qa-row" style="grid-template-columns: 1fr 180px; align-items:center;">
+                    <div class="qa-q">${escapeHtml(st.statement)}</div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')" style="font-weight:800; color:var(--success);">
+                      ${speakerMap[st.speaker] || escapeHtml(st.speaker)}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+              ${item.script ? `
+                <div class="script-box" style="margin-top:14px;">
+                  <strong>🎧 Hội thoại gốc (Audio Script):</strong><br/>
+                  ${escapeHtml(item.script).replace(/([MW]:)/g, '<br/><strong>$1</strong>')}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        case 'l_part4': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">🎙️ Bài ${item._idx}: ${escapeHtml(item.topic)}</div>
+                <span class="badge">Listening Part 4 (2 câu hỏi)</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                ${item.questions.map(q => `
+                  <div>
+                    <div class="question-text">${escapeHtml(q.q)}</div>
+                    <div class="options-grid">
+                      ${q.options.map(opt => {
+                        const isCorrect = opt === q.answer;
+                        const cls = (studyMode === 'study' && isCorrect) ? 'correct-study' : '';
+                        const icon = (studyMode === 'study' && isCorrect) ? '<span>✅ Đáp án đúng</span>' : '';
+                        return `
+                          <div class="option-item ${cls}" onclick="checkMcqOption(this, ${isCorrect})">
+                            <span>${escapeHtml(opt)}</span>
+                            ${icon}
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+              ${item.script ? `
+                <div class="script-box" style="margin-top:14px;">
+                  <strong>🎧 Bài độc thoại gốc (Audio Script):</strong><br/>${escapeHtml(item.script)}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        case 's_formulas': {
+          return renderSpeakingFormulasCard(item.formulas);
+        }
+
+        case 's_part1': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">🗣️ ${escapeHtml(item.title)}</div>
+                <span class="badge">${item.qa.length} nhóm câu hỏi</span>
+              </div>
+              <div class="qa-list">
+                ${item.qa.map((row, rIdx) => {
+                  const boxId = `sp1_${item._idx}_${rIdx}`;
+                  return `
+                  <div class="qa-row">
+                    <div class="qa-q">
+                      <div>${escapeHtml(row.q)}</div>
+                      <div class="tts-actions">
+                        <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.q).replace(/"/g, '&quot;')}, null, false)" title="Nghe câu hỏi">🔊 Nghe câu hỏi</button>
+                      </div>
+                    </div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">
+                      <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
+                      <div class="tts-actions">
+                        <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu tự nhiên</button>
+                        <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)" title="Đọc từng câu rồi dừng 3.5 giây để bạn nhại theo">🗣️ Nhại từng câu (Shadowing)</button>
+                      </div>
+                    </div>
+                  </div>
+                `}).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 's_part2': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">🖼️ ${escapeHtml(item.subtitle || item.title)}</div>
+                <span class="badge">Speaking Part 2 (45s / câu)</span>
+              </div>
+              ${item.images && item.images.length ? `
+                <div class="photo-grid">
+                  ${item.images.map((src, iIdx) => `
+                    <div class="photo-card">
+                      <img src="${src}" alt="${escapeHtml(item.title)} Photo ${iIdx + 1}" onclick="openLightbox('${src}')" loading="lazy" />
+                      <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Bấm vào ảnh để phóng to (Photo ${iIdx + 1})</div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+
+              ${item.descriptions && item.descriptions.length ? `
+                <div style="margin-bottom:14px;">
+                  <div style="font-weight:800; font-size:14px; color:var(--primary); margin-bottom:8px;">📌 Câu 1: Mô tả tranh (Bản chuẩn trong file Aptis - Cấu trúc.docx)</div>
+                  <div class="qa-list">
+                    ${item.descriptions.map((desc, dIdx) => {
+                      const boxId = `sp2_desc_${item._idx}_${dIdx}`;
+                      return `
+                      <div style="padding:12px 14px; background:var(--surface-alt); border-left:4px solid var(--primary); border-radius:8px;">
+                        <div id="${boxId}">${formatInteractiveSpeechText(desc, boxId)}</div>
+                        <div class="tts-actions">
+                          <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(desc).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu tự nhiên</button>
+                          <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(desc).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
+                        </div>
+                      </div>
+                    `}).join('')}
+                  </div>
+                </div>
+              ` : ''}
+
+              <div style="font-weight:800; font-size:14px; color:var(--success); margin-bottom:8px;">📌 Câu hỏi phụ 2 & 3 (Bản chuẩn trong file Aptis - Cấu trúc.docx)</div>
+              <div class="qa-list">
+                ${item.qa.map((row, rIdx) => {
+                  const boxId = `sp2_qa_${item._idx}_${rIdx}`;
+                  return `
+                  <div class="qa-row">
+                    <div class="qa-q">${escapeHtml(row.q)}</div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">
+                      <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
+                      <div class="tts-actions">
+                        <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu tự nhiên</button>
+                        <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
+                      </div>
+                    </div>
+                  </div>
+                `}).join('')}
+              </div>
+
+              ${item.b1_qa && item.b1_qa.length ? `
+                <div style="margin-top:16px; padding-top:14px; border-top:1px dashed var(--border);">
+                  <div style="font-weight:800; font-size:14px; color:var(--purple); margin-bottom:8px;">✨ Bản rút gọn B1 (Ngắn gọn – Dễ học thuộc nhanh trong 45s)</div>
+                  <div class="qa-list">
+                    ${item.b1_qa.map((row, rIdx) => {
+                      const boxId = `sp2_b1_${item._idx}_${rIdx}`;
+                      return `
+                      <div class="qa-row">
+                        <div class="qa-q">${escapeHtml(row.q)}</div>
+                        <div class="qa-a answer-reveal" style="border-left-color:var(--purple);" onclick="this.classList.add('revealed')">
+                          <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
+                          <div class="tts-actions">
+                            <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu B1</button>
+                            <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
+                          </div>
+                        </div>
+                      </div>
+                    `}).join('')}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        case 's_part3': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">⚖️ ${escapeHtml(item.title)}</div>
+                <span class="badge">Speaking Part 3 (So sánh 2 tranh)</span>
+              </div>
+              ${item.images && item.images.length ? `
+                <div class="photo-grid">
+                  ${item.images.map((src, iIdx) => `
+                    <div class="photo-card">
+                      <img src="${src}" alt="${escapeHtml(item.title)}" onclick="openLightbox('${src}')" loading="lazy" />
+                      <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Bấm vào ảnh để phóng to</div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+              <div style="font-weight:800; font-size:14px; color:var(--primary); margin-bottom:8px;">📌 Câu trả lời mẫu đầy đủ (File Aptis - Cấu trúc.docx)</div>
+              <div class="qa-list">
+                ${item.qa.map((row, rIdx) => {
+                  const boxId = `sp3_qa_${item._idx}_${rIdx}`;
+                  return `
+                  <div class="qa-row">
+                    <div class="qa-q">${escapeHtml(row.q)}</div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">
+                      <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
+                      <div class="tts-actions">
+                        <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu tự nhiên</button>
+                        <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
+                      </div>
+                    </div>
+                  </div>
+                `}).join('')}
+              </div>
+
+              ${item.b1_qa && item.b1_qa.length ? `
+                <div style="margin-top:16px; padding-top:14px; border-top:1px dashed var(--border);">
+                  <div style="font-weight:800; font-size:14px; color:var(--purple); margin-bottom:8px;">✨ Bản rút gọn B1 (Ngắn gọn – Dễ nhớ trong 45s)</div>
+                  <div class="qa-list">
+                    ${item.b1_qa.map((row, rIdx) => {
+                      const boxId = `sp3_b1_${item._idx}_${rIdx}`;
+                      return `
+                      <div class="qa-row">
+                        <div class="qa-q">${escapeHtml(row.q)}</div>
+                        <div class="qa-a answer-reveal" style="border-left-color:var(--purple);" onclick="this.classList.add('revealed')">
+                          <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
+                          <div class="tts-actions">
+                            <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu B1</button>
+                            <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
+                          </div>
+                        </div>
+                      </div>
+                    `}).join('')}
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        case 's_part4': {
+          const coreBoxId = `sp4_core_${item._idx}`;
+          const b1BoxId = `sp4_b1_${item._idx}`;
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">🌟 ${escapeHtml(item.title)}</div>
+                <span class="badge green">Áp dụng cho ${item.modules.length} đề (Modules)</span>
+              </div>
+
+              <div style="background:var(--primary-light); border:1px solid var(--primary-border); border-radius:10px; padding:16px; margin-bottom:16px;">
+                <div style="font-weight:800; color:var(--primary); margin-bottom:6px;">📖 CỐT TRUYỆN CỐ ĐỊNH (LEARN ONCE: FIXED CORE STORY):</div>
+                <div id="${coreBoxId}">
+                  <div style="font-size:15.5px; margin-bottom:10px;">${formatInteractiveSpeechText(item.story, coreBoxId)}</div>
+                  <div style="font-weight:700; color:var(--success);">🎯 KẾT LUẬN CHUNG (COMMON CONCLUSION): ${formatInteractiveSpeechText(item.conclusion, coreBoxId)}</div>
+                </div>
+                <div class="tts-actions">
+                  <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.story + ' ' + item.conclusion).replace(/"/g, '&quot;')}, '${coreBoxId}', false)">🔊 Nghe Core Story tự nhiên</button>
+                  <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.story + ' ' + item.conclusion).replace(/"/g, '&quot;')}, '${coreBoxId}', true)">🗣️ Nhại từng câu (Shadowing)</button>
+                </div>
+              </div>
+
+              ${item.b1_script ? `
+                <div style="background:var(--purple-light); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px;">
+                  <div style="font-weight:800; color:var(--purple); margin-bottom:6px;">✨ BÀI NÓI GHÉP HOÀN CHỈNH 2 PHÚT (B1–B2 DỄ THUỘC):</div>
+                  <div id="${b1BoxId}" style="font-size:15px; white-space:pre-line;">${formatInteractiveSpeechText(item.b1_script, b1BoxId)}</div>
+                  <div class="tts-actions">
+                    <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.b1_script).replace(/"/g, '&quot;')}, '${b1BoxId}', false)">🔊 Nghe mẫu bài 2 phút</button>
+                    <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.b1_script).replace(/"/g, '&quot;')}, '${b1BoxId}', true)">🗣️ Nhại từng câu (Shadowing)</button>
+                  </div>
+                </div>
+              ` : ''}
+
+              <div style="font-weight:800; font-size:15px; margin-bottom:10px;">🧩 Danh sách ${item.modules.length} Modules & Câu trả lời chi tiết:</div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                ${item.modules.map((mod, mIdx) => `
+                  <div style="border:1px solid var(--border); border-radius:10px; padding:14px; background:var(--surface-alt);">
+                    <div style="font-weight:800; color:var(--primary); font-size:15px; margin-bottom:6px;">🔹 ${escapeHtml(mod.name)}</div>
+                    <div style="font-size:14px; margin-bottom:10px; color:var(--text-muted);">
+                      <strong>Câu hỏi chính (Q1):</strong> ${mod.main_questions.map(mq => escapeHtml(mq)).join(' / ')}
+                    </div>
+                    <div class="qa-list">
+                      ${mod.subquestions.map((sq, sIdx) => {
+                        const sqBoxId = `sp4_sq_${item._idx}_${mIdx}_${sIdx}`;
+                        return `
+                        <div class="qa-row">
+                          <div class="qa-q">${escapeHtml(sq.q)}</div>
+                          <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">
+                            <div id="${sqBoxId}">${formatInteractiveSpeechText(sq.a, sqBoxId)}</div>
+                            <div class="tts-actions">
+                              <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(sq.a).replace(/"/g, '&quot;')}, '${sqBoxId}', false)">🔊 Nghe mẫu</button>
+                              <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(sq.a).replace(/"/g, '&quot;')}, '${sqBoxId}', true)">🗣️ Nhại từng câu</button>
+                            </div>
+                          </div>
+                        </div>
+                      `}).join('')}
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 'w_part1':
+        case 'w_part3': {
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">✍️ ${escapeHtml(item.club)}</div>
+                <span class="badge">${item.qa.length} câu trả lời mẫu</span>
+              </div>
+              <div class="qa-list">
+                ${item.qa.map(row => `
+                  <div class="qa-row">
+                    <div class="qa-q">${escapeHtml(row.q)}</div>
+                    <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">
+                      <div>${escapeHtml(row.a)}</div>
+                      <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Số từ: <strong>${countWords(row.a)} từ</strong></div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        case 'w_part2': {
+          const pId = `wp2_${item._idx}`;
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">✍️ ${escapeHtml(item.club)}</div>
+                <span class="badge green">${countWords(item.a)} từ (Chuẩn 20–30w)</span>
+              </div>
+              <div class="qa-row">
+                <div class="qa-q">${escapeHtml(item.q)}</div>
+                <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">${escapeHtml(item.a)}</div>
+              </div>
+              <div class="writing-practice">
+                <button class="script-toggle" onclick="toggleElement('${pId}')">⌨️ Mở ô gõ thử & Đếm từ tự động</button>
+                <div id="${pId}" style="display:none;">
+                  <textarea placeholder="Gõ thử câu trả lời của bạn vào đây (mục tiêu 20–30 từ)..." oninput="updateWordCount(this, '${pId}_cnt')"></textarea>
+                  <div style="font-size:12.5px; color:var(--text-muted); margin-top:4px;">Số từ bạn đã gõ: <strong id="${pId}_cnt">0</strong> từ</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        case 'w_part4': {
+          const pId = `wp4_${item._idx}`;
+          return `
+            <div class="card" id="item-card-${item._idx}">
+              <div class="card-header">
+                <div class="card-title">📧 ${escapeHtml(item.club)}</div>
+                <span class="badge">Writing Part 4 (2 Emails)</span>
+              </div>
+
+              <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:8px; padding:14px; margin-bottom:14px;">
+                <div style="font-weight:800; color:var(--warning); margin-bottom:4px;">📢 ${escapeHtml(item.notice_title || 'Club Notice')}:</div>
+                <div style="font-size:14.5px; white-space:pre-line;">${escapeHtml(item.notice)}</div>
+              </div>
+
+              <div class="qa-list">
+                <div class="qa-row" style="grid-template-columns: 1fr 2fr;">
+                  <div>
+                    <div class="qa-q">1. Email gửi bạn thân (Informal)</div>
+                    <div style="font-size:13.5px; color:var(--text-muted); margin-top:4px;">${escapeHtml(item.friend_prompt)}</div>
+                    <span class="badge green" style="display:inline-block; margin-top:8px;">${countWords(item.friend_email)} từ</span>
+                  </div>
+                  <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">${escapeHtml(item.friend_email)}</div>
+                </div>
+
+                <div class="qa-row" style="grid-template-columns: 1fr 2fr;">
+                  <div>
+                    <div class="qa-q">2. Email gửi Quản lý CLB (Formal)</div>
+                    <div style="font-size:13.5px; color:var(--text-muted); margin-top:4px;">${escapeHtml(item.manager_prompt)}</div>
+                    <span class="badge purple" style="display:inline-block; margin-top:8px;">${countWords(item.manager_email)} từ</span>
+                  </div>
+                  <div class="qa-a answer-reveal" style="border-left-color:var(--purple);" onclick="this.classList.add('revealed')">${escapeHtml(item.manager_email)}</div>
+                </div>
+              </div>
+
+              <div class="writing-practice">
+                <button class="script-toggle" onclick="toggleElement('${pId}')">⌨️ Mở ô luyện gõ thử Email & Đếm từ tự động</button>
+                <div id="${pId}" style="display:none;">
+                  <textarea placeholder="Luyện gõ thử Email của bạn tại đây..." oninput="updateWordCount(this, '${pId}_cnt')"></textarea>
+                  <div style="font-size:12.5px; color:var(--text-muted); margin-top:4px;">Số từ bạn đã gõ: <strong id="${pId}_cnt">0</strong> từ</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }
+      return '';
+    }
+
+    function renderWritingPart4Templates() {
+      const tpls = window.APTIS_DATA.writing.part4.templates || [];
+      if (!tpls.length) return '';
+      return `
+        <div class="card" style="border: 2px solid var(--primary);">
+          <div class="card-header">
+            <div class="card-title">⭐ Khung Mẫu Email B2–C1 Áp Dụng Chung Cho Mọi Đề Writing Part 4</div>
+            <span class="badge">Học thuộc khung này</span>
+          </div>
+          <div class="tip-grid">
+            ${tpls.map(t => `
+              <div style="background:var(--surface-alt); border:1px solid var(--border); border-radius:10px; padding:14px;">
+                <div style="font-weight:800; color:var(--primary); margin-bottom:8px;">📌 ${escapeHtml(t.title)}</div>
+                <div style="font-size:14.5px; white-space:pre-line;">${formatTextWithHighlights(t.body)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSpeakingFormulasCard(formulas) {
+      return `
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⭐ Công Thức Speaking Trọng Tâm (Trích từ cuối file Aptis - Cấu trúc.docx)</div>
+            <span class="badge">8 Cấu trúc vàng</span>
+          </div>
+          <div class="tip-grid">
+            <div class="tip-box">
+              <h4>1. Giới thiệu số lượng & sở hữu</h4>
+              <ul>
+                <li><strong>Số lượng:</strong> <code>There is + a/an + N...</code> / <code>There are + number + plural N...</code></li>
+                <li><strong>Sở hữu:</strong> <code>I have...</code> / <code>My ... has...</code></li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <h4>2. Miêu tả tính chất</h4>
+              <ul>
+                <li><strong>Đơn giản:</strong> <code>S + be + adj</code></li>
+                <li><strong>Nhiều tính từ:</strong> <code>S + be + adj, adj, and adj</code></li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <h4>3. Thói quen & 4. Mục đích</h4>
+              <ul>
+                <li><strong>Thói quen:</strong> <code>S + adv of frequency (usually/often/always) + V</code></li>
+                <li><strong>Mục đích:</strong> <code>S + V + to + V</code></li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <h4>5. Nguyên nhân & Nhượng bộ (Ăn điểm B2)</h4>
+              <ul>
+                <li><code>because + clause</code></li>
+                <li><code>The main reason is that + clause</code></li>
+                <li><code>One thing I really appreciate is that + clause</code></li>
+                <li><code>What I like most is...</code></li>
+                <li><code>Although / Even though + clause, main clause</code></li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <h4>7. Thời gian</h4>
+              <ul>
+                <li><code>Whenever + clause</code> (Mỗi khi...)</li>
+                <li><code>Since I was + age/time</code> (Từ khi tôi...)</li>
+                <li><code>Growing up, ...</code> (Khi lớn lên,...)</li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <h4>8. Mệnh đề quan hệ</h4>
+              <ul>
+                <li><code>N (người) + who + V</code></li>
+                <li><code>N (vật) + which + V</code></li>
+                <li><code>N + that + V</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Reference items for Grammar & Vocabulary overview
+    function getGrammarReferenceItems() {
+      return [
+        {
+          _idx: 1,
+          _title: '1. Hệ thống Thì động từ (Verb Tenses) hay gặp nhất',
+          title: '1. Hệ thống Thì động từ (Questions 1–25)',
+          tag: 'Trọng tâm số 1',
+          points: [
+            { rule: 'Hiện tại hoàn thành (Present Perfect)', example: 'Dấu hiệu: [since, for, just, already, yet, ever, never, recently].\nCông thức: S + have/has + V3/ed.\nVí dụ: I have lived in this city for five years.' },
+            { rule: 'Quá khứ tiếp diễn & Quá khứ đơn', example: 'Hành động đang xảy ra thì hành động khác xen vào:\nWhen I [arrived], they [were having] dinner.' },
+            { rule: 'Quá khứ hoàn thành (Past Perfect)', example: 'Xảy ra trước 1 thời điểm/hành động trong quá khứ (by the time, before, after):\nWhen we got to the station, the train [had already left].' }
+          ]
+        },
+        {
+          _idx: 2,
+          _title: '2. Câu điều kiện (Conditionals) & Wish',
+          title: '2. Câu điều kiện (Conditionals Loại 1, 2, 3) & Câu ước',
+          tag: 'Luôn có 2–3 câu',
+          points: [
+            { rule: 'Điều kiện loại 1 (Có thật ở hiện tại/tương lai)', example: 'If + S + V(s/es), S + [will/can/should] + V nguyên mẫu.\nVí dụ: If it rains tomorrow, we [will stay] at home.' },
+            { rule: 'Điều kiện loại 2 (Không có thật ở hiện tại)', example: 'If + S + V2/ed (were), S + [would/could] + V nguyên mẫu.\nVí dụ: If I [had] more free time, I [would learn] another language.' },
+            { rule: 'Điều kiện loại 3 (Trái ngược quá khứ)', example: 'If + S + had + V3/ed, S + [would have + V3/ed].\nVí dụ: If you had told me earlier, I [would have helped] you.' }
+          ]
+        },
+        {
+          _idx: 3,
+          _title: '3. Động từ khuyết thiếu (Modal Verbs) & Bị động (Passive)',
+          title: '3. Modal Verbs, Danh động từ (V-ing) & To-V',
+          tag: 'Cấu trúc cố định',
+          points: [
+            { rule: 'Các động từ đi với V-ing', example: '[enjoy, avoid, mind, suggest, finish, practise, look forward to, be used to] + V-ing.' },
+            { rule: 'Các động từ đi với To + V', example: '[decide, hope, plan, promise, agree, refuse, want, would like, ask sb] + to V.' },
+            { rule: 'Used to + V vs Be/Get used to + V-ing', example: 'I [used to play] football when I was young. (Thói quen cũ đã bỏ)\nI [am used to waking] up early. (Đã quen với việc gì)' }
+          ]
+        }
+      ];
+    }
+
+    function getVocabReferenceItems() {
+      return [
+        {
+          _idx: 1,
+          _title: '1. Các cặp Từ đồng nghĩa (Synonyms) hay gặp trong Part 2',
+          title: '1. Các cặp Từ đồng nghĩa (Word Matching) phổ biến',
+          tag: 'Questions 26–30',
+          points: [
+            { rule: 'Động từ (Verbs) đồng nghĩa', example: 'begin = start | choose = select / pick | assist = help | purchase = buy | fix = repair / mend | construct = build | reply = answer | happen = take place' },
+            { rule: 'Tính từ (Adjectives) đồng nghĩa', example: 'huge = enormous / large | tiny = small | wealthy = rich | well-known = famous | essential = necessary / important | fortunate = lucky | annoyed = angry' },
+            { rule: 'Danh từ & Trạng từ', example: 'error = mistake | fee = charge / cost | opinion = view | transformation = change | rapidly = quickly | finally = eventually | frequently = often' }
+          ]
+        },
+        {
+          _idx: 2,
+          _title: '2. Các cụm từ cố định (Collocations) ăn điểm trực tiếp',
+          title: '2. Các cụm Collocations hay xuất hiện nhất',
+          tag: 'Questions 41–50',
+          points: [
+            { rule: 'Cụm với MAKE vs DO', example: '[Make]: make a decision, make a mistake, make progress, make an effort, make friends, make noise.\n[Do]: do homework, do research, do a favor, do business, do exercise.' },
+            { rule: 'Cụm Tính từ + Danh từ', example: '[heavy] rain / traffic | [strong] wind / coffee / argument | [high] quality / price / speed | [deep] sleep / trouble | [close] friend | [public] transport | [financial] statement' }
+          ]
+        }
+      ];
+    }
+
+    // =========================================================================
+    // 6. INTERACTIVE HELPERS (MCQ, TTS, TIMER, LIGHTBOX, HIGHLIGHTING)
+    // =========================================================================
+    function checkMcqOption(el, isCorrect) {
+      if (isCorrect) {
+        el.classList.add('selected-correct');
+        if (!el.innerHTML.includes('✅')) {
+          el.innerHTML += ' <span>✅ Chính xác!</span>';
+        }
+      } else {
+        el.classList.add('selected-wrong');
+        if (!el.innerHTML.includes('❌')) {
+          el.innerHTML += ' <span>❌ Sai rồi</span>';
+        }
+      }
+    }
+
+    function setStudyMode(mode) {
+      studyMode = mode;
+      document.getElementById('btnModeStudy').classList.toggle('active', mode === 'study');
+      document.getElementById('btnModePractice').classList.toggle('active', mode === 'practice');
+      document.body.classList.toggle('practice-mode', mode === 'practice');
+      renderPaginationAndList();
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('btnTheme').textContent = isDark ? '☀️ Giao diện sáng' : '🌙 Giao diện tối';
+    }
+
+    function toggleTips() {
+      const body = document.getElementById('tipsBody');
+      const btn = document.getElementById('tipsToggleBtn');
+      const isCollapsed = body.classList.toggle('collapsed');
+      btn.textContent = isCollapsed ? 'Mở rộng ▼' : 'Thu gọn ▲';
+    }
+
+    function toggleElement(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function updateWordCount(textarea, counterId) {
+      const words = countWords(textarea.value);
+      document.getElementById(counterId).textContent = words;
+    }
+
+    function countWords(str) {
+      if (!str || !str.trim()) return 0;
+      return str.trim().split(/\s+/).length;
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatTextWithHighlights(str) {
+      const escaped = escapeHtml(str);
+      return escaped.replace(/\[([^\]]+)\]/g, '<span class="slot-pill">[$1]</span>');
+    }
+
+    function highlightConnectives(str) {
+      const escaped = escapeHtml(str);
+      return escaped.replace(
+        /\b(First|Firstly|Second|Secondly|Then|Next|After that|After|Before|Finally|However|Therefore|Moreover|In addition|Even though|Although|Due to|Because|That&#39;s because|That's because|During this time|Throughout|When|Once)\b/g,
+        '<span class="connective-hl">$1</span>'
+      );
+    }
+
+    // =========================================================================
+    // 7. NATURAL VOICE & SHADOWING STUDIO (DUAL-ENGINE: GOOGLE AI + NEURAL WEB SPEECH)
+    // =========================================================================
+    let selectedVoiceMode = 'google_uk'; // 'google_uk' | 'google_us' | 'auto_best' | 'voice_<index>'
+    let speechSpeed = 0.85; // 0.85x default for clear imitation & shadowing
+    let availableEnglishVoices = [];
+    let activeAudioQueue = [];
+    let activeQueueIndex = 0;
+    let activeContainerId = null;
+    let activeShadowMode = false;
+    let activePlayButton = null;
+    let shadowPauseTimeout = null;
+    let isSpeechPlaying = false;
+
+    // Create hidden HTML5 audio element with no-referrer for natural cloud TTS
+    const ttsAudioEl = document.createElement('audio');
+    ttsAudioEl.setAttribute('referrerpolicy', 'no-referrer');
+    ttsAudioEl.preload = 'auto';
+    document.body.appendChild(ttsAudioEl);
+
+    function scoreBrowserVoice(v) {
+      const name = (v.name || '').toLowerCase();
+      const lang = (v.lang || '').toLowerCase();
+      if (!lang.startsWith('en')) return -100;
+      let score = 0;
+      // Prefer Neural / Online Natural voices (Edge / Windows 11)
+      if (name.includes('natural') || name.includes('neural')) score += 100;
+      if (name.includes('online')) score += 40;
+      // Prefer female / clear pedagogical voices
+      if (name.includes('sonia') || name.includes('libby') || name.includes('aria') || name.includes('jenny') || name.includes('ava') || name.includes('emma')) score += 50;
+      if (name.includes('ryan') || name.includes('guy') || name.includes('andrew') || name.includes('brian')) score += 40;
+      // Google Chrome high-quality voices
+      if (name.includes('google uk english female')) score += 85;
+      if (name.includes('google us english')) score += 80;
+      if (name.includes('google uk english male')) score += 75;
+      // Apple / macOS high-quality voices
+      if (name.includes('samantha') || name.includes('daniel') || name.includes('karen') || name.includes('moira')) score += 60;
+      // Clear Windows local female voices over David
+      if (name.includes('hazel') || name.includes('zira') || name.includes('susan')) score += 30;
+      if (lang.includes('gb') || lang.includes('uk')) score += 10;
+      if (name.includes('david')) score -= 30;
+      return score;
+    }
+
+    function loadBrowserVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const all = window.speechSynthesis.getVoices() || [];
+      availableEnglishVoices = all
+        .filter(v => (v.lang || '').toLowerCase().startsWith('en'))
+        .sort((a, b) => scoreBrowserVoice(b) - scoreBrowserVoice(a));
+
+      const selectEl = document.getElementById('voiceSelect');
+      if (!selectEl) return;
+      const currentVal = selectEl.value || selectedVoiceMode;
+
+      let html = `
+        <option value="google_uk">🇬🇧 Giọng AI Anh-Anh (Chuẩn Aptis - Tự nhiên)</option>
+        <option value="google_us">🇺🇸 Giọng AI Anh-Mỹ (Nữ rõ chữ, dễ nhại)</option>
+        <option value="auto_best">🌟 Giọng Neural Trình duyệt (Tự chọn tốt nhất)</option>
+      `;
+
+      availableEnglishVoices.slice(0, 12).forEach((v, idx) => {
+        const isNatural = /natural|neural|google/i.test(v.name);
+        const tag = isNatural ? '✨ ' : '🔊 ';
+        html += `<option value="browser_${idx}">${tag}${escapeHtml(v.name)} (${escapeHtml(v.lang)})</option>`;
+      });
+
+      selectEl.innerHTML = html;
+      // If browser has a top-tier Microsoft Natural Online voice, keep user's choice or default to google_uk
+      if ([...selectEl.options].some(o => o.value === currentVal)) {
+        selectEl.value = currentVal;
+      }
+      // Auto-select Microsoft Natural voice if running in Edge where Natural voices are native
+      if (availableEnglishVoices.length > 0 && /natural/i.test(availableEnglishVoices[0].name) && selectedVoiceMode === 'google_uk') {
+        selectedVoiceMode = 'browser_0';
+        selectEl.value = 'browser_0';
+      }
+    }
+
+    if ('speechSynthesis' in window) {
+      loadBrowserVoices();
+      window.speechSynthesis.onvoiceschanged = loadBrowserVoices;
+    }
+
+    function onVoiceSelectChange(val) {
+      selectedVoiceMode = val;
+      if (isSpeechPlaying) {
+        replayCurrentAudioSentence();
+      }
+    }
+
+    function setSpeechSpeed(speed, btnEl) {
+      speechSpeed = speed;
+      document.querySelectorAll('#speedPills .speed-pill').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      if (isSpeechPlaying) {
+        ttsAudioEl.playbackRate = speechSpeed;
+      }
+    }
+
+    // Clean raw text so English TTS never reads Vietnamese notes or both options in [A / B]
+    function cleanTextForSpeech(raw) {
+      if (!raw) return '';
+      let s = String(raw);
+      // Strip structural prefixes
+      s = s.replace(/PHOTO \d+\s*[–-]\s*DESCRIBE THE PICTURE/gi, '');
+      s = s.replace(/Use CORE STORY \d+\s*\+/gi, '');
+      s = s.replace(/^[A-Z]:\s+/gm, '');
+      s = s.replace(/^[•·]\s*/gm, '');
+
+      // Replace known Vietnamese placeholders inside brackets with natural English
+      s = s.replace(/\[([^\]]+)\]/g, (match, inner) => {
+        const trimmed = inner.trim();
+        // If it contains Vietnamese characters or instructions
+        if (/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(trimmed)) {
+          if (/Đọc lại 3 câu hỏi/i.test(trimmed)) return 'the three questions on the screen';
+          if (/Chèn ý chính Q1/i.test(trimmed)) return 'I had an unforgettable experience';
+          if (/Chủ đề Q3/i.test(trimmed)) return 'this topic';
+          return '';
+        }
+        // If it has multiple English options like [Last night / On the weekend], pick the first one for natural flow!
+        if (trimmed.includes('/')) {
+          return trimmed.split('/')[0].trim();
+        }
+        return trimmed;
+      });
+
+      return s.replace(/\s+/g, ' ').trim();
+    }
+
+    function splitIntoSentences(text) {
+      const cleaned = cleanTextForSpeech(text);
+      if (!cleaned) return [];
+      const matches = cleaned.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [cleaned];
+      return matches.map(m => m.trim()).filter(Boolean);
+    }
+
+    // Format answer text into clickable sentence spans so learners can click any sentence to listen & imitate
+    function formatInteractiveSpeechText(rawText, containerId) {
+      if (!rawText) return '';
+      const lines = String(rawText).split('\n');
+      let globalSentIdx = 0;
+
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        const parts = trimmed.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [trimmed];
+        const spans = parts.map(part => {
+          const sIdx = globalSentIdx++;
+          const spokenClean = cleanTextForSpeech(part);
+          const highlightedHtml = formatTextWithHighlights(part.trim());
+          return `<span class="speak-sentence" data-sent-idx="${sIdx}" data-spoken="${escapeHtml(spokenClean)}" onclick="speakSingleSentence(this, event)" title="👆 Bấm vào câu này để nghe riêng & bắt chước">${highlightedHtml}</span>`;
+        }).join(' ');
+        return spans;
+      }).filter(Boolean).join('<br/>');
+    }
+
+    function speakSingleSentence(spanEl, event) {
+      if (event) event.stopPropagation();
+      const parentBox = spanEl.closest('[id]');
+      const boxId = parentBox ? parentBox.id : null;
+      const sIdx = parseInt(spanEl.getAttribute('data-sent-idx') || '0', 10);
+
+      if (boxId) {
+        const allSpans = [...parentBox.querySelectorAll('.speak-sentence')];
+        const sentences = allSpans.map(sp => sp.getAttribute('data-spoken') || sp.textContent).filter(Boolean);
+        startSentenceQueue(sentences, sIdx, boxId, false, null, true);
+      } else {
+        const txt = spanEl.getAttribute('data-spoken') || spanEl.textContent;
+        startSentenceQueue([txt], 0, null, false, null, true);
+      }
+    }
+
+    function playSpeechBlock(btnEl, rawText, containerId, isShadowMode) {
+      // If clicking the same button while playing, stop it
+      if (isSpeechPlaying && activePlayButton === btnEl) {
+        stopAllSpeech();
+        return;
+      }
+
+      let sentences = [];
+      if (containerId) {
+        const box = document.getElementById(containerId);
+        if (box) {
+          box.closest('.answer-reveal')?.classList.add('revealed');
+          const spans = [...box.querySelectorAll('.speak-sentence')];
+          if (spans.length > 0) {
+            sentences = spans.map(sp => sp.getAttribute('data-spoken') || cleanTextForSpeech(sp.textContent)).filter(Boolean);
+          }
+        }
+      }
+      if (sentences.length === 0) {
+        sentences = splitIntoSentences(rawText);
+      }
+      if (sentences.length === 0) return;
+
+      startSentenceQueue(sentences, 0, containerId, isShadowMode, btnEl, false);
+    }
+
+    function startSentenceQueue(sentences, startIndex, containerId, isShadowMode, btnEl, singleOnly) {
+      stopAllSpeech();
+      activeAudioQueue = singleOnly ? [sentences[startIndex]] : sentences;
+      activeQueueIndex = singleOnly ? 0 : startIndex;
+      activeContainerId = containerId;
+      activeShadowMode = isShadowMode;
+      activePlayButton = btnEl;
+      isSpeechPlaying = true;
+
+      if (btnEl) {
+        btnEl.classList.add('playing');
+        btnEl.dataset.origLabel = btnEl.innerHTML;
+        btnEl.innerHTML = '⏹ Dừng đọc';
+      }
+
+      document.getElementById('audioBar').classList.add('open');
+      playCurrentSentenceInQueue(singleOnly ? startIndex : null);
+    }
+
+    function highlightDomSentence(containerId, sentIdx) {
+      document.querySelectorAll('.speak-sentence.active-reading').forEach(el => el.classList.remove('active-reading'));
+      if (!containerId || sentIdx === null || sentIdx === undefined) return;
+      const box = document.getElementById(containerId);
+      if (!box) return;
+      const target = box.querySelector(`.speak-sentence[data-sent-idx="${sentIdx}"]`);
+      if (target) {
+        target.classList.add('active-reading');
+      }
+    }
+
+    function playCurrentSentenceInQueue(overrideDomIdx = null) {
+      clearTimeout(shadowPauseTimeout);
+      if (!isSpeechPlaying || activeQueueIndex < 0 || activeQueueIndex >= activeAudioQueue.length) {
+        stopAllSpeech();
+        return;
+      }
+
+      const sentence = activeAudioQueue[activeQueueIndex];
+      const domIdx = overrideDomIdx !== null ? overrideDomIdx : activeQueueIndex;
+      highlightDomSentence(activeContainerId, domIdx);
+
+      const statusEl = document.getElementById('audioStatusText');
+      statusEl.classList.remove('shadow-wait');
+      const modeLabel = activeShadowMode ? '🗣️ Chế độ Nhại từng câu (Shadowing)' : '🔊 Đang đọc mẫu tự nhiên';
+      statusEl.innerHTML = `${modeLabel} — <strong>Câu ${activeQueueIndex + 1}/${activeAudioQueue.length}</strong> (Tốc độ ${speechSpeed}x)`;
+      document.getElementById('audioCurrentSentence').textContent = sentence;
+
+      speakSingleUtterance(sentence, () => {
+        if (!isSpeechPlaying) return;
+
+        // If last sentence finished
+        if (activeQueueIndex >= activeAudioQueue.length - 1) {
+          if (activeShadowMode) {
+            const waitMs = Math.max(2800, Math.min(5500, sentence.split(/\s+/).length * 320));
+            statusEl.classList.add('shadow-wait');
+            statusEl.innerHTML = `🎙️ <strong>Đến lượt bạn nhại lại câu cuối!</strong> (${(waitMs / 1000).toFixed(1)}s)...`;
+            shadowPauseTimeout = setTimeout(() => stopAllSpeech(), waitMs);
+          } else {
+            stopAllSpeech();
+          }
+          return;
+        }
+
+        // Pause between sentences: short natural breath (450ms) in normal mode, or 3.5s–5s in Shadowing mode!
+        if (activeShadowMode) {
+          const waitMs = Math.max(3000, Math.min(5500, sentence.split(/\s+/).length * 330));
+          statusEl.classList.add('shadow-wait');
+          statusEl.innerHTML = `🎙️ <strong>Đến lượt bạn đọc nhại lại câu vừa nghe!</strong> (Nghỉ ${(waitMs / 1000).toFixed(1)}s trước khi qua câu ${activeQueueIndex + 2})...`;
+          shadowPauseTimeout = setTimeout(() => {
+            if (!isSpeechPlaying) return;
+            activeQueueIndex++;
+            playCurrentSentenceInQueue();
+          }, waitMs);
+        } else {
+          shadowPauseTimeout = setTimeout(() => {
+            if (!isSpeechPlaying) return;
+            activeQueueIndex++;
+            playCurrentSentenceInQueue();
+          }, 420);
+        }
+      });
+    }
+
+    function speakSingleUtterance(sentence, onEndedCallback) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      ttsAudioEl.pause();
+
+      // If user chose Google AI UK or US voice (and sentence is <= 200 chars)
+      if ((selectedVoiceMode === 'google_uk' || selectedVoiceMode === 'google_us') && sentence.length <= 220) {
+        const tl = selectedVoiceMode === 'google_uk' ? 'en-GB' : 'en-US';
+        const url = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=${tl}&dt=t&q=${encodeURIComponent(sentence)}`;
+        ttsAudioEl.src = url;
+        ttsAudioEl.playbackRate = speechSpeed;
+
+        ttsAudioEl.onended = () => {
+          ttsAudioEl.onended = null;
+          ttsAudioEl.onerror = null;
+          onEndedCallback();
+        };
+
+        ttsAudioEl.onerror = () => {
+          ttsAudioEl.onended = null;
+          ttsAudioEl.onerror = null;
+          // Automatic fallback to best browser voice if offline or blocked
+          speakWithBrowserVoice(sentence, onEndedCallback);
+        };
+
+        const playPromise = ttsAudioEl.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            ttsAudioEl.onended = null;
+            ttsAudioEl.onerror = null;
+            speakWithBrowserVoice(sentence, onEndedCallback);
+          });
+        }
+        return;
+      }
+
+      speakWithBrowserVoice(sentence, onEndedCallback);
+    }
+
+    function speakWithBrowserVoice(sentence, onEndedCallback) {
+      if (!('speechSynthesis' in window)) {
+        onEndedCallback();
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(sentence);
+
+      let chosenVoice = null;
+      if (selectedVoiceMode.startsWith('browser_')) {
+        const vIdx = parseInt(selectedVoiceMode.replace('browser_', ''), 10);
+        chosenVoice = availableEnglishVoices[vIdx] || availableEnglishVoices[0];
+      } else if (selectedVoiceMode === 'google_uk') {
+        chosenVoice = availableEnglishVoices.find(v => /gb|uk/i.test(v.lang) || /uk|british|sonia|libby|hazel/i.test(v.name)) || availableEnglishVoices[0];
+      } else {
+        chosenVoice = availableEnglishVoices[0];
+      }
+
+      if (chosenVoice) {
+        utter.voice = chosenVoice;
+        utter.lang = chosenVoice.lang || 'en-GB';
+      } else {
+        utter.lang = 'en-GB';
+      }
+
+      utter.rate = speechSpeed;
+      utter.pitch = 1.02; // Slightly warm, clear pitch
+      utter.onend = () => onEndedCallback();
+      utter.onerror = () => onEndedCallback();
+      window.speechSynthesis.speak(utter);
+    }
+
+    function prevAudioSentence() {
+      if (!isSpeechPlaying || activeAudioQueue.length === 0) return;
+      activeQueueIndex = Math.max(0, activeQueueIndex - 1);
+      playCurrentSentenceInQueue();
+    }
+
+    function nextAudioSentence() {
+      if (!isSpeechPlaying || activeAudioQueue.length === 0) return;
+      if (activeQueueIndex < activeAudioQueue.length - 1) {
+        activeQueueIndex++;
+        playCurrentSentenceInQueue();
+      } else {
+        stopAllSpeech();
+      }
+    }
+
+    function replayCurrentAudioSentence() {
+      if (!isSpeechPlaying || activeAudioQueue.length === 0) return;
+      playCurrentSentenceInQueue();
+    }
+
+    function stopAllSpeech() {
+      isSpeechPlaying = false;
+      clearTimeout(shadowPauseTimeout);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      ttsAudioEl.pause();
+      ttsAudioEl.onended = null;
+      ttsAudioEl.onerror = null;
+
+      document.querySelectorAll('.speak-sentence.active-reading').forEach(el => el.classList.remove('active-reading'));
+      if (activePlayButton) {
+        activePlayButton.classList.remove('playing');
+        if (activePlayButton.dataset.origLabel) {
+          activePlayButton.innerHTML = activePlayButton.dataset.origLabel;
+        }
+        activePlayButton = null;
+      }
+      const bar = document.getElementById('audioBar');
+      if (bar) bar.classList.remove('open');
+    }
+
+    // Legacy wrapper if called anywhere else
+    function speakText(btn, text) {
+      playSpeechBlock(btn, text, null, false);
+    }
+
+    // Speaking Countdown Timer
+    let timerInterval = null;
+    let remainingSeconds = 45;
+
+    function startTimer(seconds) {
+      clearInterval(timerInterval);
+      remainingSeconds = seconds;
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerUI();
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          const disp = document.getElementById('timerDisplay');
+          disp.textContent = 'HẾT GIỜ!';
+          disp.style.color = 'var(--danger)';
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      const disp = document.getElementById('timerDisplay');
+      disp.style.color = 'var(--primary)';
+    }
+
+    function updateTimerUI() {
+      const disp = document.getElementById('timerDisplay');
+      disp.style.color = remainingSeconds <= 5 ? 'var(--danger)' : 'var(--primary)';
+      const m = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+      const s = String(remainingSeconds % 60).padStart(2, '0');
+      disp.textContent = `${m}:${s}`;
+    }
+
+    // Lightbox for Images
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
