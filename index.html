@@ -2217,7 +2217,7 @@
           return `
             <div class="card" id="item-card-${item._idx}">
               <div class="card-header">
-                <div class="card-title">🖼️ ${escapeHtml(item.subtitle || item.title)}</div>
+                <div class="card-title">🖼️ ${escapeHtml(item.title)}</div>
                 <span class="badge">Speaking Part 2 (45s / câu)</span>
               </div>
               ${item.images && item.images.length ? `
@@ -2231,26 +2231,6 @@
                 </div>
               ` : ''}
 
-              ${item.descriptions && item.descriptions.length ? `
-                <div style="margin-bottom:14px;">
-                  <div style="font-weight:800; font-size:14px; color:var(--primary); margin-bottom:8px;">📌 Câu 1: Mô tả tranh (Bản chuẩn trong file Aptis - Cấu trúc.docx)</div>
-                  <div class="qa-list">
-                    ${item.descriptions.map((desc, dIdx) => {
-                      const boxId = `sp2_desc_${item._idx}_${dIdx}`;
-                      return `
-                      <div style="padding:12px 14px; background:var(--surface-alt); border-left:4px solid var(--primary); border-radius:8px;">
-                        <div id="${boxId}">${formatInteractiveSpeechText(desc, boxId)}</div>
-                        <div class="tts-actions">
-                          <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(desc).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu tự nhiên</button>
-                          <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(desc).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
-                        </div>
-                      </div>
-                    `}).join('')}
-                  </div>
-                </div>
-              ` : ''}
-
-              <div style="font-weight:800; font-size:14px; color:var(--success); margin-bottom:8px;">📌 Câu hỏi phụ 2 & 3 (Bản chuẩn trong file Aptis - Cấu trúc.docx)</div>
               <div class="qa-list">
                 ${item.qa.map((row, rIdx) => {
                   const boxId = `sp2_qa_${item._idx}_${rIdx}`;
@@ -2267,28 +2247,6 @@
                   </div>
                 `}).join('')}
               </div>
-
-              ${item.b1_qa && item.b1_qa.length ? `
-                <div style="margin-top:16px; padding-top:14px; border-top:1px dashed var(--border);">
-                  <div style="font-weight:800; font-size:14px; color:var(--purple); margin-bottom:8px;">✨ Bản rút gọn B1 (Ngắn gọn – Dễ học thuộc nhanh trong 45s)</div>
-                  <div class="qa-list">
-                    ${item.b1_qa.map((row, rIdx) => {
-                      const boxId = `sp2_b1_${item._idx}_${rIdx}`;
-                      return `
-                      <div class="qa-row">
-                        <div class="qa-q">${escapeHtml(row.q)}</div>
-                        <div class="qa-a answer-reveal" style="border-left-color:var(--purple);" onclick="this.classList.add('revealed')">
-                          <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
-                          <div class="tts-actions">
-                            <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu B1</button>
-                            <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
-                          </div>
-                        </div>
-                      </div>
-                    `}).join('')}
-                  </div>
-                </div>
-              ` : ''}
             </div>
           `;
         }
@@ -2310,7 +2268,7 @@
                   `).join('')}
                 </div>
               ` : ''}
-              <div style="font-weight:800; font-size:14px; color:var(--primary); margin-bottom:8px;">📌 Câu trả lời mẫu đầy đủ (File Aptis - Cấu trúc.docx)</div>
+
               <div class="qa-list">
                 ${item.qa.map((row, rIdx) => {
                   const boxId = `sp3_qa_${item._idx}_${rIdx}`;
@@ -2327,35 +2285,13 @@
                   </div>
                 `}).join('')}
               </div>
-
-              ${item.b1_qa && item.b1_qa.length ? `
-                <div style="margin-top:16px; padding-top:14px; border-top:1px dashed var(--border);">
-                  <div style="font-weight:800; font-size:14px; color:var(--purple); margin-bottom:8px;">✨ Bản rút gọn B1 (Ngắn gọn – Dễ nhớ trong 45s)</div>
-                  <div class="qa-list">
-                    ${item.b1_qa.map((row, rIdx) => {
-                      const boxId = `sp3_b1_${item._idx}_${rIdx}`;
-                      return `
-                      <div class="qa-row">
-                        <div class="qa-q">${escapeHtml(row.q)}</div>
-                        <div class="qa-a answer-reveal" style="border-left-color:var(--purple);" onclick="this.classList.add('revealed')">
-                          <div id="${boxId}">${formatInteractiveSpeechText(row.a, boxId)}</div>
-                          <div class="tts-actions">
-                            <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', false)">🔊 Nghe mẫu B1</button>
-                            <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(row.a).replace(/"/g, '&quot;')}, '${boxId}', true)">🗣️ Nhại từng câu</button>
-                          </div>
-                        </div>
-                      </div>
-                    `}).join('')}
-                  </div>
-                </div>
-              ` : ''}
             </div>
           `;
         }
 
         case 's_part4': {
-          const coreBoxId = `sp4_core_${item._idx}`;
-          const b1BoxId = `sp4_b1_${item._idx}`;
+          const scriptBoxId = `sp4_script_${item._idx}`;
+          const allSpokenText = (item.script_lines || []).map(l => l.text).join('\n');
           return `
             <div class="card" id="item-card-${item._idx}">
               <div class="card-header">
@@ -2363,52 +2299,54 @@
                 <span class="badge green">Áp dụng cho ${item.modules.length} đề (Modules)</span>
               </div>
 
-              <div style="background:var(--primary-light); border:1px solid var(--primary-border); border-radius:10px; padding:16px; margin-bottom:16px;">
-                <div style="font-weight:800; color:var(--primary); margin-bottom:6px;">📖 CỐT TRUYỆN CỐ ĐỊNH (LEARN ONCE: FIXED CORE STORY):</div>
-                <div id="${coreBoxId}">
-                  <div style="font-size:15.5px; margin-bottom:10px;">${formatInteractiveSpeechText(item.story, coreBoxId)}</div>
-                  <div style="font-weight:700; color:var(--success);">🎯 KẾT LUẬN CHUNG (COMMON CONCLUSION): ${formatInteractiveSpeechText(item.conclusion, coreBoxId)}</div>
+              <!-- Unified 2-minute script from Speak/APTIS_Speaking_Part4.docx -->
+              <div style="background:var(--primary-light); border:2px solid var(--primary-border); border-radius:12px; padding:18px; margin-bottom:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                  <div style="font-weight:800; color:var(--primary); font-size:16px;">🎙️ BÀI NÓI MẪU 2 PHÚT CỐ ĐỊNH (Dùng chung cho mọi Module bên dưới):</div>
+                  <div class="tts-actions" style="margin-top:0;">
+                    <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.full_script || allSpokenText).replace(/"/g, '&quot;')}, '${scriptBoxId}', false)">🔊 Nghe bài nói chuẩn</button>
+                    <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.full_script || allSpokenText).replace(/"/g, '&quot;')}, '${scriptBoxId}', true)">🗣️ Nhại từng câu (Shadowing)</button>
+                  </div>
                 </div>
-                <div class="tts-actions">
-                  <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.story + ' ' + item.conclusion).replace(/"/g, '&quot;')}, '${coreBoxId}', false)">🔊 Nghe Core Story tự nhiên</button>
-                  <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.story + ' ' + item.conclusion).replace(/"/g, '&quot;')}, '${coreBoxId}', true)">🗣️ Nhại từng câu (Shadowing)</button>
+
+                <div id="${scriptBoxId}" style="display:flex; flex-direction:column; gap:10px;">
+                  ${(item.script_lines || []).map((line, lIdx) => {
+                    const lineBoxId = `sp4_line_${item._idx}_${lIdx}`;
+                    if (line.is_red) {
+                      return `
+                        <div id="${lineBoxId}" style="background:var(--danger-light); border-left:4px solid var(--danger); padding:10px 14px; border-radius:8px; font-weight:700; color:var(--danger);">
+                          <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:2px;">🔴 Câu bổ sung riêng nếu trúng Module màu đỏ tương ứng:</div>
+                          <div>${formatInteractiveSpeechText(line.text, lineBoxId)}</div>
+                        </div>
+                      `;
+                    }
+                    return `
+                      <div style="background:var(--surface); border:1px solid var(--border); padding:11px 14px; border-radius:8px; font-size:15.5px;">
+                        ${formatInteractiveSpeechText(line.text, scriptBoxId)}
+                      </div>
+                    `;
+                  }).join('')}
                 </div>
               </div>
 
-              ${item.b1_script ? `
-                <div style="background:var(--purple-light); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px;">
-                  <div style="font-weight:800; color:var(--purple); margin-bottom:6px;">✨ BÀI NÓI GHÉP HOÀN CHỈNH 2 PHÚT (B1–B2 DỄ THUỘC):</div>
-                  <div id="${b1BoxId}" style="font-size:15px; white-space:pre-line;">${formatInteractiveSpeechText(item.b1_script, b1BoxId)}</div>
-                  <div class="tts-actions">
-                    <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.b1_script).replace(/"/g, '&quot;')}, '${b1BoxId}', false)">🔊 Nghe mẫu bài 2 phút</button>
-                    <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(item.b1_script).replace(/"/g, '&quot;')}, '${b1BoxId}', true)">🗣️ Nhại từng câu (Shadowing)</button>
-                  </div>
-                </div>
-              ` : ''}
-
-              <div style="font-weight:800; font-size:15px; margin-bottom:10px;">🧩 Danh sách ${item.modules.length} Modules & Câu trả lời chi tiết:</div>
-              <div style="display:flex; flex-direction:column; gap:12px;">
-                ${item.modules.map((mod, mIdx) => `
-                  <div style="border:1px solid var(--border); border-radius:10px; padding:14px; background:var(--surface-alt);">
-                    <div style="font-weight:800; color:var(--primary); font-size:15px; margin-bottom:6px;">🔹 ${escapeHtml(mod.name)}</div>
-                    <div style="font-size:14px; margin-bottom:10px; color:var(--text-muted);">
-                      <strong>Câu hỏi chính (Q1):</strong> ${mod.main_questions.map(mq => escapeHtml(mq)).join(' / ')}
+              <!-- Clean Module Lookup Table from Speak/APTIS_Speaking_Part4.docx -->
+              <div style="font-weight:800; font-size:15px; margin-bottom:10px;">📋 Bảng danh sách ${item.modules.length} Modules áp dụng Core Story này:</div>
+              <div class="qa-list">
+                ${item.modules.map(mod => `
+                  <div class="qa-row" style="grid-template-columns: 200px 1fr 1.2fr; align-items:start; ${mod.is_red ? 'border:1.5px solid var(--danger); background:var(--danger-light);' : ''}">
+                    <div>
+                      <div style="font-weight:800; color:${mod.is_red ? 'var(--danger)' : 'var(--primary)'}; font-size:14.5px;">
+                        ${mod.is_red ? '🔴 ' : '🔹 '}${escapeHtml(mod.name)}
+                      </div>
+                      ${mod.is_red ? '<div style="font-size:11.5px; color:var(--danger); font-weight:700; margin-top:4px;">Có 1 câu bổ sung màu đỏ ở trên</div>' : ''}
                     </div>
-                    <div class="qa-list">
-                      ${mod.subquestions.map((sq, sIdx) => {
-                        const sqBoxId = `sp4_sq_${item._idx}_${mIdx}_${sIdx}`;
-                        return `
-                        <div class="qa-row">
-                          <div class="qa-q">${escapeHtml(sq.q)}</div>
-                          <div class="qa-a answer-reveal" onclick="this.classList.add('revealed')">
-                            <div id="${sqBoxId}">${formatInteractiveSpeechText(sq.a, sqBoxId)}</div>
-                            <div class="tts-actions">
-                              <button class="tts-btn" onclick="playSpeechBlock(this, ${JSON.stringify(sq.a).replace(/"/g, '&quot;')}, '${sqBoxId}', false)">🔊 Nghe mẫu</button>
-                              <button class="tts-btn shadow-btn" onclick="playSpeechBlock(this, ${JSON.stringify(sq.a).replace(/"/g, '&quot;')}, '${sqBoxId}', true)">🗣️ Nhại từng câu</button>
-                            </div>
-                          </div>
-                        </div>
-                      `}).join('')}
+                    <div>
+                      <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:2px;">Câu hỏi chính (Q1):</div>
+                      <div style="font-weight:700; font-size:14.5px;">${escapeHtml(mod.q1)}</div>
+                    </div>
+                    <div style="border-left:3px solid var(--border); padding-left:12px;">
+                      <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin-bottom:2px;">Câu hỏi phụ (Q2 & Q3):</div>
+                      <div style="font-size:14px; white-space:pre-line;">${escapeHtml(mod.q23)}</div>
                     </div>
                   </div>
                 `).join('')}
